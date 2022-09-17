@@ -35,7 +35,7 @@ export class JSONConstructed {
         }
     }
 
-    public static fromJSON(json: { [k: string]: any }, convertJsonKey = true) {
+    public static fromJSON<T extends JSONConstructed>(json: { [k: string]: any }, convertJsonKey = true) {
         /*
             ! This is the object creation method!
             Object from json after converting json to map
@@ -46,7 +46,7 @@ export class JSONConstructed {
             json = camelcaseKeys(json) as { [k: string] : any }
         }
 
-        let obj = new this()
+        let obj = new this() as T
         obj.assignFromMap(commonHelper.toMap(json))
         return obj
 

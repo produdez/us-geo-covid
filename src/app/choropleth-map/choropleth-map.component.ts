@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import * as L from 'leaflet'
-import { UsStatesService } from '../us-states.service'
+import { UsStatesService } from '../core/services/us-states.service'
 import {CustomLeafletControl} from './custom-leaflet-control'
 import { MapStylingService } from './map-styling.service'
 @Component({
@@ -11,7 +11,10 @@ import { MapStylingService } from './map-styling.service'
 })
 export class ChoroplethMapComponent {
 
-  constructor (private statesService: UsStatesService, private style: MapStylingService) {}
+  constructor (
+    private statesService: UsStatesService, 
+    private style: MapStylingService
+  ) {}
 
   statesData = this.statesService.statesData
 

@@ -1,6 +1,7 @@
 import { JSONConstructed } from './JSONConstructed'
 
 export class State extends JSONConstructed {
-    name: string|null = null
-    initials: string|null = null
+    id: string|undefined = undefined
+    name: string|undefined = undefined
+    initials: string|undefined = undefined
 }

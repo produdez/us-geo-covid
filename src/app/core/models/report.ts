@@ -4,17 +4,17 @@ import { JSONConstructed } from './JSONConstructed'
 export class Report extends JSONConstructed {
     // ! NOTE: this syntax allow for creation of automatic constructor (default initialized)
 
-    date: Date|null = null
-    state: State|null = null
+    date: Date|undefined = undefined
+    state: State|undefined = undefined
 
-    death: number|null = null
-    positive: number|null = null
-    negative: number|null = null
+    death: number|undefined = undefined
+    positive: number|undefined = undefined
+    negative: number|undefined = undefined
 
-    hospitalizedCumulative: number|null = null
-    inIcuCumulative: number|null = null
-    onVentilatorCumulative: number|null = null
+    hospitalizedCumulative: number|undefined = undefined
+    inIcuCumulative: number|undefined = undefined
+    onVentilatorCumulative: number|undefined = undefined
 
-    recovered: number|null = null
+    recovered: number|undefined = undefined
     
 }

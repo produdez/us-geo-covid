@@ -1,0 +1,10 @@
+<ul>
+    <li>
+        <a routerLink='/' routerLinkActive="active" ariaCurrentWhenActive="page">HOME</a>
+    </li>
+    <ng-template ngFor let-path [ngForOf]="routes">
+      <li>
+        <a routerLink={{path}} routerLinkActive="active" ariaCurrentWhenActive="page">{{path.slice(1).toUpperCase()}}</a>
+    </li>
+    </ng-template>
+</ul>
