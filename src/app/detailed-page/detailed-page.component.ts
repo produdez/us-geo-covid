@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { JSONConstructed } from '../core/models/JSONConstructed';
-import { Report } from '../core/models/report';
-import { State } from '../core/models/state';
-import { CovidApiService } from '../core/services/covid-api.service';
+import { Component, OnInit } from '@angular/core'
+import { JSONConstructed } from '../core/models/JSONConstructed'
+import { Report } from '../core/models/report'
+import { State } from '../core/models/state'
+import { CovidApiService } from '../core/services/covid-api.service'
 @Component({
   selector: 'app-detailed-page',
   templateUrl: './detailed-page.component.html',
@@ -11,8 +11,7 @@ import { CovidApiService } from '../core/services/covid-api.service';
 export class DetailedPageComponent implements OnInit {
   stateInitials = "AK" // TODO: remove hardcode later and take value from hyperlink params
   state: State | undefined = undefined
-  reports : State[] = []
-  test: string | undefined = undefined
+  reports : Report[] = []
   constructor(private covidApiService: CovidApiService) {}
 
   stringifiedReports() {
@@ -28,11 +27,11 @@ export class DetailedPageComponent implements OnInit {
     })
   }
   getReports(id?: string) {
-    // TODO: URGENT - currently json is working, continue to convert to Report[]
-    console.log('id: ', id)
     this.covidApiService.getStateReports(id).subscribe((data) => {
-      this.test = JSON.stringify(data)
-      console.log('Final: ', data)
+      for (let jsonReport of data) {
+        // TODO: can make this more efficient by converting them during the html request (just add a converterFunction)
+        this.reports.push(Report.fromJSON<Report>(jsonReport))
+      }
     })
   }
 }
