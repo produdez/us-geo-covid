@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component'
 import { DetailedPageComponent } from './detailed-page/detailed-page.component'
 import { DetailsComponent } from './detailed-page/details/details.component'
-import { GraphsComponent } from './detailed-page/graphs/graphs.component'
+import { GraphsComponent } from './detailed-page/graphs/graphs.component';
 @NgModule({
   declarations: [
     AppComponent,
