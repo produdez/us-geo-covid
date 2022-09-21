@@ -1,0 +1,7 @@
+<div *ngIf="condition; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>
+    <template #componentContainer></template>
+</ng-template>
+<ng-template #elseBlock>
+    <app-loading></app-loading>
+</ng-template>

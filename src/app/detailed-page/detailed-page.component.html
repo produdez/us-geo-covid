@@ -1,2 +1,9 @@
-<app-details [state]="this.state" [reports]="this.reports"></app-details>
-<app-graphs [state]="this.state" [reports]="this.reports"></app-graphs>
+<p> This is detailed page </p>
+<div *ngIf="updated(); then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>
+    <app-details [state]="state | cast" [reports]="this.reports"></app-details>
+    <app-graphs [state]="state | cast" [reports]="this.reports"></app-graphs>
+</ng-template>
+<ng-template #elseBlock>
+    <app-loading></app-loading>
+</ng-template>

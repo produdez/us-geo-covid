@@ -21,17 +21,32 @@ export class JSONConstructed {
         return Object.keys(this)
     }
 
-    private assignFromMap(kwargs: Map<String, any>) {
+    protected assignFromMap(
+        kwargs: Map<String, any>, 
+        specialCases?: {attributeName: string, converter: (a: string) => any}[]
+        ) {
         /* 
             Assign all attributes from an kwargs map
             Note that all attributes must be already initialized with some value
             for this to work properly (null for simplicity)
          */
         // ! extra unused keys from kwargs are ignored
+        
+        let normalAttributes = this.getAttributeNames()
+        let  specialAttributes = specialCases ? specialCases.map(x => x.attributeName) : []
+        normalAttributes = normalAttributes.filter((value) => (specialAttributes.indexOf(value) === -1))
+        for (let attributeName of normalAttributes) {
+            let value = kwargs.get(attributeName)
+            if(this[attributeName as keyof typeof this] === undefined || value !== null) 
+                this[attributeName as keyof typeof this] = value 
+        }
 
-        for (let key of this.getAttributeNames()) {
-            let value = kwargs.get(key)
-            this[key as keyof typeof this] = value
+        if(specialCases) {
+            for(let sCase of specialCases) {
+                let value = kwargs.get(sCase.attributeName)
+                if(this[sCase.attributeName as keyof typeof this] === undefined || value !== null) 
+                    this[sCase.attributeName as keyof typeof this] = sCase.converter(value) 
+            }
         }
     }
 

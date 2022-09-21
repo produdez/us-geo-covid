@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import * as L from 'leaflet'
-import { UsStatesService } from '../core/services/us-states.service'
+import { UsStatesService } from '../shared/services/us-states.service'
 import {CustomLeafletControl} from './custom-leaflet-control'
 import { MapStylingService } from './map-styling.service'
 @Component({

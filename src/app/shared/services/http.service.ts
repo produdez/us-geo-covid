@@ -32,7 +32,6 @@ export class HttpService {
         var nextUrl: string = value['next']
         var reportJSONArray: [{[k: string] : any}] = value['results']
         var result = from(reportJSONArray)
-        console.log('Result: ', value['results'])
         if (nextUrl != null) {
           result = concat(result, this.recursiveGetAllPages(nextUrl))
         }

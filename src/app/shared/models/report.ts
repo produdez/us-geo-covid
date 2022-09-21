@@ -4,12 +4,13 @@ import { JSONConstructed } from './JSONConstructed'
 export class Report extends JSONConstructed {
     // ! NOTE: this syntax allow for creation of automatic constructor (default initialized)
 
-    date: Date|undefined = undefined
+    date: Date = new Date()
     state: State|undefined = undefined
 
     death: number|undefined = undefined
-    positive: number|undefined = undefined
-    negative: number|undefined = undefined
+    // TODO: URGENT: solve these undefined or 0 cases initialization and cement the solution
+    positive: number = 0
+    negative: number=0
 
     hospitalizedCumulative: number|undefined = undefined
     inIcuCumulative: number|undefined = undefined
@@ -17,4 +18,9 @@ export class Report extends JSONConstructed {
 
     recovered: number|undefined = undefined
     
+    protected override assignFromMap(
+        kwargs: Map<String, any>, 
+    ) {
+        return super.assignFromMap(kwargs, [{attributeName: 'date', converter: Date.parse}])
+    }
 }

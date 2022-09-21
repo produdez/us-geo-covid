@@ -17,7 +17,6 @@ export class CovidApiService {
 
   getState(initials?: string) {
     let requestURL = `${this.apiURL}/state/init/${initials}/`
-    console.log('getState', requestURL)
     return this.http.get(requestURL)
   }
 
