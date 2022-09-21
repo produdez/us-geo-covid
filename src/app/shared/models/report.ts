@@ -5,18 +5,17 @@ export class Report extends JSONConstructed {
     // ! NOTE: this syntax allow for creation of automatic constructor (default initialized)
 
     date: Date = new Date()
-    state: State|undefined = undefined
+    stateId: number = -1
 
-    death: number|undefined = undefined
-    // TODO: URGENT: solve these undefined or 0 cases initialization and cement the solution
+    death: number = 0
     positive: number = 0
-    negative: number=0
+    negative: number = 0
 
-    hospitalizedCumulative: number|undefined = undefined
-    inIcuCumulative: number|undefined = undefined
-    onVentilatorCumulative: number|undefined = undefined
+    hospitalizedCumulative: number = 0
+    inIcuCumulative: number = 0
+    onVentilatorCumulative: number = 0
 
-    recovered: number|undefined = undefined
+    recovered: number = 0
     
     protected override assignFromMap(
         kwargs: Map<String, any>, 

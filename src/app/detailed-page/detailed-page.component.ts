@@ -28,9 +28,10 @@ export class DetailedPageComponent implements OnInit{
   ngOnInit(): void {
     this.covidApiService.getState(this.stateInitials).subscribe((data: {[key: string]: any}) => {
       this.state = State.fromJSON<State>(data)
-      this.getReports(this.state.id)
+      this.getReports(this.state.id.toString())
     })
   }
+
   getReports(id?: string) {
     this.covidApiService.getStateReports(id).subscribe((data) => {
       for (let jsonReport of data) {

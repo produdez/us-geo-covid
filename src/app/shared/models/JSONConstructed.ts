@@ -3,7 +3,7 @@ import camelcaseKeys from 'camelcase-keys'
 
 export class JSONConstructed {
     // * This class represent object that can be constructed from JSON
-
+    // ! Important: all classes inherit this must have all values initialized as non-null
 
     // ! NOTE: DO NOT make a constructor here
     /*
@@ -37,14 +37,14 @@ export class JSONConstructed {
         normalAttributes = normalAttributes.filter((value) => (specialAttributes.indexOf(value) === -1))
         for (let attributeName of normalAttributes) {
             let value = kwargs.get(attributeName)
-            if(this[attributeName as keyof typeof this] === undefined || value !== null) 
+            if(value !== null) 
                 this[attributeName as keyof typeof this] = value 
         }
 
         if(specialCases) {
             for(let sCase of specialCases) {
                 let value = kwargs.get(sCase.attributeName)
-                if(this[sCase.attributeName as keyof typeof this] === undefined || value !== null) 
+                if(value !== null) 
                     this[sCase.attributeName as keyof typeof this] = sCase.converter(value) 
             }
         }
