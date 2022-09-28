@@ -1,9 +1,25 @@
-<p> This is detailed page </p>
-<div *ngIf="updated(); then thenBlock else elseBlock"></div>
-<ng-template #thenBlock>
+<div>
+    <input #stateIdentifier (keyup.enter)="getState(stateIdentifier.value)">
+    <button (click)="getState(stateIdentifier.value)">
+        Get State details
+    </button>
+</div>
+
+<div *ngIf="updated(); then detailBlock else emptyBlock"></div>
+<ng-template #emptyBlock>
+    <div *ngIf="loading; then loadingBlock else nothingBlock"></div>
+</ng-template>
+
+<ng-template #detailBlock>
+    <p> This is detailed page </p>
     <app-details [state]="state | cast" [reports]="this.reports"></app-details>
     <app-graphs [state]="state | cast" [reports]="this.reports"></app-graphs>
 </ng-template>
-<ng-template #elseBlock>
+
+<ng-template #loadingBlock>
     <app-loading></app-loading>
+</ng-template>
+
+<ng-template #nothingBlock>
+    <p> Search details by initials or name</p>
 </ng-template>

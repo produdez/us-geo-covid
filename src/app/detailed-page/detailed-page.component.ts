@@ -1,6 +1,4 @@
-import { Component, DoCheck, Input, IterableDiffers, OnChanges, OnInit, SimpleChanges } from '@angular/core'
-import { BehaviorSubject } from 'rxjs'
-import { JSONConstructed } from '../shared/models/JSONConstructed'
+import { Component } from '@angular/core'
 import { Report } from '../shared/models/report'
 import { State } from '../shared/models/state'
 import { CovidApiService } from '../shared/services/covid-api.service'
@@ -9,15 +7,17 @@ import { CovidApiService } from '../shared/services/covid-api.service'
   templateUrl: './detailed-page.component.html',
   styleUrls: ['./detailed-page.component.sass']
 })
-export class DetailedPageComponent implements OnInit{
-  stateInitials = "AK" // TODO: remove hardcode later and take value from hyperlink params
+export class DetailedPageComponent {
   state: State | undefined = undefined
   reports : Report[] = []
+  loading = false
 
-  constructor(private covidApiService: CovidApiService) {}
+  constructor(
+    private covidApiService: CovidApiService,
+  ) {}
 
   updated() {
-    return (this.state !== undefined && this.reports.length > 0)
+    return this.state !== undefined && !this.loading
   }
 
 
@@ -25,19 +25,42 @@ export class DetailedPageComponent implements OnInit{
     return JSON.stringify(this.reports)
   }
 
-  ngOnInit(): void {
-    this.covidApiService.getState(this.stateInitials).subscribe((data: {[key: string]: any}) => {
-      this.state = State.fromJSON<State>(data)
-      this.getReports(this.state.id.toString())
+  getState(stateIdentifier: string) {
+    this.state = undefined
+    this.loading = true
+
+    this.covidApiService.getState(stateIdentifier).subscribe({
+      next: (data: {[key: string]: any}) => {
+        this.state = State.fromJSON<State>(data)
+        this.getReports(this.state.id.toString())
+      },
+      error: (error: any) => {
+        this.failAndAlert(error, `Fail to get state "${stateIdentifier}"`)
+      }
     })
   }
 
   getReports(id?: string) {
-    this.covidApiService.getStateReports(id).subscribe((data) => {
-      for (let jsonReport of data) {
-        // TODO: can make this more efficient by converting them during the html request (just add a converterFunction)
-        this.reports.push(Report.fromJSON(jsonReport))
+    console.log('Getting reports')
+    this.reports = []
+    this.covidApiService.getStateReports(id).subscribe({
+      next: (data: {[key: string]: any}[]) => {
+        for (let jsonReport of data) {
+          // TODO: can make this more efficient by converting them during the html request (just add a converterFunction)
+          // Or make use of the next/complete to batch process (https://rxjs.dev/deprecations/subscribe-arguments)
+          this.reports.push(Report.fromJSON(jsonReport))
+        }
+        this.loading = false
+      },
+      error: (error: any) => {
+        this.failAndAlert(error, `Fail to get reports for state "${this.state?.initials}"`)
       }
     })
+  }
+
+  failAndAlert(err: string, message: string) {
+    this.loading = false
+    console.log(err)
+    alert(message)
   }
 }
