@@ -1,0 +1,17 @@
+<div *ngIf="loaded() then mapBlock else loadingBlock"></div>
+
+<ng-template #mapBlock>
+    <h1> Map </h1>
+    <div 
+        id="choropeth-map"
+        class="leaflet-map"
+        leaflet 
+        [leafletOptions]="options"
+        (leafletMapReady)="onMapReady($event)"
+        >
+    </div>
+</ng-template>
+
+<ng-template #loadingBlock>
+    <app-loading></app-loading>
+</ng-template>

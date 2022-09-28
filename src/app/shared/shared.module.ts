@@ -8,6 +8,8 @@ import { CastPipe } from './pipes/cast.pipe'
 import { CastListPipe } from './pipes/castList.pipe'
 import { DetailsComponent } from './components/details/details.component'
 import { GraphsComponent } from './components/graphs/graphs.component'
+import { ChoroplethMapComponent } from './components/choropleth-map/choropleth-map.component'
+import { LeafletModule } from '@asymmetrik/ngx-leaflet'
 
 
 @NgModule({
@@ -17,10 +19,12 @@ import { GraphsComponent } from './components/graphs/graphs.component'
     CastPipe,
     CastListPipe,
     DetailsComponent,
-    GraphsComponent
+    GraphsComponent,
+    ChoroplethMapComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    LeafletModule
   ],
   exports: [
     LoadingComponent,
@@ -28,7 +32,8 @@ import { GraphsComponent } from './components/graphs/graphs.component'
     CastPipe,
     CastListPipe,
     DetailsComponent,
-    GraphsComponent
+    GraphsComponent,
+    ChoroplethMapComponent,
   ],
   providers: [
     CovidApiService,

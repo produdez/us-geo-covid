@@ -5,11 +5,14 @@ export class CustomLeafletControl extends Control {
     }
 
     div?: HTMLElement
-    update (props?: {name: string, density: number}) {
+    update (props?: {[key: string]: any}): void {
+        const invalidProps = props === undefined
+        var name = invalidProps ? 'Invalid state' : props['name']
+        var value = invalidProps || props['report'] === undefined ? 'Invalid value' : props['report']['positive']
         if(!this.div) throw new Error('Div not initialized!')
         if(!props) this.div.innerHTML = ''
         this.div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
-            '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+            '<b>' + name + '</b><br />' + value + ' people / mi<sup>2</sup>'
             : 'Hover over a state')
     };
 

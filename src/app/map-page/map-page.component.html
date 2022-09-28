@@ -1,0 +1,12 @@
+<h1> Map page</h1>
+<p> Current date: {{date}}</p>
+<div>
+    <button (click)="addTime(-1)"> Sub </button> <button (click)="addTime(1)"> Add </button>
+</div>
+<div>
+    <button (click)="addTime(-1, 'month')"> Sub Month </button> <button (click)="addTime(1, 'month')"> Month </button>
+</div>
+<div>
+    <button (click)="addTime(-1, 'year')"> Sub Year </button> <button (click)="addTime(1, 'year')"> Add Year </button>
+</div>
+<app-choropleth-map [date]="date"></app-choropleth-map>
