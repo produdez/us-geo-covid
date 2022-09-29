@@ -1,16 +1,18 @@
 import { Injectable, Inject } from '@angular/core'
-import { mergeMap, toArray } from 'rxjs'
 import { HttpService } from './http.service'
+import { environment } from '../../../environments/environment'
+
 @Injectable({
   providedIn: 'root'
 })
 export class CovidApiService {
 
-  constructor(
-    @Inject(HttpService) private http: HttpService,
-    ) { }
+  apiURL = environment.BACKEND_URL
 
-  apiURL = 'http://127.0.0.1:8000/api-covid'
+  constructor(@Inject(HttpService) private http: HttpService) { 
+    console.log('Backend URL: ', this.apiURL)
+  }
+
 
   test() {
     let requestURL = `${this.apiURL}/state-reports/1/`
