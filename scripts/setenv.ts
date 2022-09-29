@@ -6,10 +6,8 @@ require('dotenv').config()
 // read the command line arguments passed with yargs
 const environment = argv.environment
 const isProduction = environment === 'prod'
-if (!process.env['BACKEND_URL']) {
-   console.error('All the required environment variables were not provided!')
-   process.exit(-1)
-}
+
+const BACKEND_URL = isProduction ? process.env['BACKEND_URL'] : 'http://127.0.0.1:8000/api-covid'
 
 const targetPath = isProduction
    ? `./src/environments/environment.prod.ts`
@@ -20,7 +18,7 @@ const targetPath = isProduction
 const environmentFileContent = `
     export const environment = {
     production: ${isProduction},
-    BACKEND_URL: "${process.env['BACKEND_URL']}",
+    BACKEND_URL: "${BACKEND_URL}",
     }
 `
 // write the content to the respective file
