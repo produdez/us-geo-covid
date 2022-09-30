@@ -19,16 +19,6 @@ export class MainPageComponent implements OnInit {
   stateSelected = () => {
     return this.stateInitials != ''
   }
-
-  addTime (range: number, type?: string) {
-    const date = new Date(this.date)
-    if (type === 'year') date.setFullYear(date.getFullYear() + range)
-    else if (type === 'month') date.setMonth(date.getMonth() + range)
-    else date.setDate(date.getDate() + range)
-    
-    this.date = date
-  }
-  
   
   ngOnInit(): void {
     this.sharedDataService.state.subscribe((state) => {

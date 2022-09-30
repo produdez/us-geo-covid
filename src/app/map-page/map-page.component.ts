@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
+import { RequiredProperty } from '../shared/decorators/requiredProperty'
 
 @Component({
   selector: 'app-map-page',
@@ -7,10 +8,9 @@ import { Component, OnInit } from '@angular/core'
 })
 export class MapPageComponent {
 
-  // TODO: urgent use this as a sub component for main page (refactor main page)
   constructor() { }
   
-  date: Date = new Date(2020, 2, 20) // TODO: set a proper init date
+  @Input() @RequiredProperty date!: Date
   
   addTime (range: number, type?: string) {
     const date = new Date(this.date)
