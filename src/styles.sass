@@ -3,8 +3,17 @@
 @tailwind components
 @tailwind utilities
 
+// Overriding style for components
 a 
-   @apply underline text-blue-600 hover:text-blue-800 visited:text-purple-600
+    @apply underline hover:text-white font-bold
+
+body
+    @apply bg-gray-900 text-base text-gray-300
+
+// Custom tailwind classes
+@layer components
+    .padding-box
+        @apply p-5
 
 .box
     border-style: solid

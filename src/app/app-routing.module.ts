@@ -6,9 +6,9 @@ import { TestPageComponent } from './test-page/test-page.component'
 import { MapPageComponent } from './map-page/map-page.component'
 
 export const routes: Routes = [
-  { path: 'map', component: MapPageComponent },
-  { path: 'detail', component: DetailedPageComponent},
-  { path: 'test-page', component: TestPageComponent}
+  { path: 'Map', component: MapPageComponent },
+  { path: 'Detail', component: DetailedPageComponent},
+  { path: 'Test Page', component: TestPageComponent}
 ]
 
 @NgModule({

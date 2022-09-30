@@ -4,5 +4,6 @@
         "camelcase",
         "choropleth",
         "kwargs"
-    ]
+    ],
+    "files.eol": "\n",
 }
