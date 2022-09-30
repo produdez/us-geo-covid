@@ -9,7 +9,8 @@ import { NavigationMenuComponent } from './navigation-menu/navigation-menu.compo
 import { DetailedPageComponent } from './detailed-page/detailed-page.component'
 import { SharedModule } from './shared/shared.module'
 import { TestPageComponent } from './test-page/test-page.component'
-import { MapPageComponent } from './map-page/map-page.component'
+import { MapPageComponent } from './map-page/map-page.component';
+import { MainPageComponent } from './main-page/main-page.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,6 +18,7 @@ import { MapPageComponent } from './map-page/map-page.component'
     DetailedPageComponent,
     TestPageComponent,
     MapPageComponent,
+    MainPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core'
 })
 export class MapPageComponent {
 
-
+  // TODO: urgent use this as a sub component for main page (refactor main page)
   constructor() { }
   
   date: Date = new Date(2020, 2, 20) // TODO: set a proper init date

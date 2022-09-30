@@ -6,6 +6,7 @@ import { MapStylingService } from './map-styling.service'
 import { Report } from '../../models/report'
 import { CovidApiService } from '../../services/covid-api.service'
 import { RequiredProperty } from '../../decorators/requiredProperty'
+import { SharedDataService } from '../../services/shared-data.service'
 
 @Component({
   selector: 'app-choropleth-map',
@@ -20,6 +21,7 @@ export class ChoroplethMapComponent implements OnInit, OnChanges {
     private style: MapStylingService,
     private usStatesGeometryService: UsStatesGeometryService,
     private covidApiService: CovidApiService,
+    private sharedDataService: SharedDataService,
   ) {}
   @Input() @RequiredProperty date!: Date
   geometryData = undefined as any
@@ -51,8 +53,6 @@ export class ChoroplethMapComponent implements OnInit, OnChanges {
     this.usStatesGeometryService.statesGeometry.subscribe(data => {
       if(data.length > 0) {
         this.geometryData = this.usStatesGeometryService.constructGeoJSON()
-  
-        console.log('Geometry data: ', this.geometryData)
         this.loadedGeo = true
       }
     })
@@ -65,7 +65,6 @@ export class ChoroplethMapComponent implements OnInit, OnChanges {
       for(let reportJson of data) {
         this.reports.push(Report.fromJSON<Report>(reportJson))
       }
-      console.log('Reports: ', this.reports)
       this.loadedReports = true
     })
   }
@@ -101,18 +100,13 @@ export class ChoroplethMapComponent implements OnInit, OnChanges {
       layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: zoomToFeature
+        click: selectStateForDetailShowing
       })
     }
   
-    const zoomToFeature = (e: L.LayerEvent) => {
-      map.fitBounds(e.target.getBounds())
-
-      // TODO: link to detail page after have detail page setup correctly
+    const selectStateForDetailShowing = (e: L.LayerEvent) => {
       var inits = e.target.feature.properties['initials']
-      this.covidApiService.getState(inits).subscribe(
-        (state: any) => {console.log('State detail: ', state)}
-      )
+      this.sharedDataService.updateState(inits)
     }
 
 

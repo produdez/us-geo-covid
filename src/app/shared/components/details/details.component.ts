@@ -12,9 +12,6 @@ export class DetailsComponent {
   @Input() @RequiredProperty reports!: Report[]
   @Input() @RequiredProperty state!: State
 
-  @HostBinding('class.display-block')
-  @HostBinding('class.wrap-text')
-
   firstReport = () => JSON.stringify(this.reports[0])
   constructor() { }
 }

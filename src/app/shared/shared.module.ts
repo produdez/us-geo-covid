@@ -10,6 +10,8 @@ import { DetailsComponent } from './components/details/details.component'
 import { GraphsComponent } from './components/graphs/graphs.component'
 import { ChoroplethMapComponent } from './components/choropleth-map/choropleth-map.component'
 import { LeafletModule } from '@asymmetrik/ngx-leaflet'
+import { SharedDataService } from './services/shared-data.service'
+import { UsStatesGeometryService } from './services/us-states-geometry.service'
 
 
 @NgModule({
@@ -38,6 +40,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet'
   providers: [
     CovidApiService,
     HttpService,
+    SharedDataService,
+    UsStatesGeometryService,
   ]
 })
 export class SharedModule { }

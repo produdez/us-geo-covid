@@ -5,9 +5,10 @@
     </div>
     <ul class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex mx-auto items-center w-auto content-between">
         <ng-template ngFor let-path [ngForOf]="routes">
-            <a class="padding-box" routerLink={{path}} routerLinkActive="active" ariaCurrentWhenActive="page">{{path.slice(1)}}</a>
+        <div class="w-[0.8px] h-3 bg-white"></div>
+        <a class="padding-box" routerLink={{path}} routerLinkActive="active" ariaCurrentWhenActive="page">{{path.slice(1)}}</a>
         </ng-template>
+        <div class="w-[0.8px] h-3 bg-white"></div>
     </ul>
-
     <button class="p-2 text-amber-200 border-gray-100 border-[2px] rounded-md"> About Me </button>
 </div>

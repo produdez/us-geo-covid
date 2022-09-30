@@ -7,21 +7,16 @@
 a 
     @apply underline hover:text-white font-bold
 
-body
+html, body
     @apply bg-gray-900 text-base text-gray-300
+    min-height: 100vh
+    height: 100vh
+    margin: 0 auto
+
+.page
+    height: 100%
 
 // Custom tailwind classes
 @layer components
     .padding-box
         @apply p-5
-
-.box
-    border-style: solid
-    border-width: 1px
-    border-color: red
-
-.display-block
-    display: block
-
-.wrap-text
-    word-wrap: break-word

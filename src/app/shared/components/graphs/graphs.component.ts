@@ -40,10 +40,9 @@ export class GraphsComponent implements OnInit{
       .attr("transform", `translate(${margin.left},0)`)
       .call(d3.axisLeft(y))
 
-    var svg = d3.select('svg')
+    var svg = d3.select('#d3-graph') // ! svg graph component
       .attr("viewBox", "0 0 " + width + " " + height )
       .attr("preserveAspectRatio", "xMinYMin")
-      .attr("width", '60%')
     var g = svg.append("g").attr("fill", "orange")
 
     g.append("path")

@@ -1,0 +1,33 @@
+<p> state: {{stateInitials}}</p>
+<div class="h-full flex flex-col">
+    <div class="grid grid-cols-4 gap-4 w-full p-2 grow border" >
+            <div class="col-span-2 box"> 
+                <h1> Map page</h1>
+            <p> Current date: {{date}}</p>
+            <div>
+                <button (click)="addTime(-1)"> Sub </button> <button (click)="addTime(1)"> Add </button>
+            </div>
+            <div>
+                <button (click)="addTime(-1, 'month')"> Sub Month </button> <button (click)="addTime(1, 'month')"> Month </button>
+            </div>
+            <div>
+                <button (click)="addTime(-1, 'year')"> Sub Year </button> <button (click)="addTime(1, 'year')"> Add Year </button>
+            </div>
+            <app-choropleth-map [date]="date"></app-choropleth-map>
+        </div>
+
+
+        <div class="col-span-2 box"> 
+            <div *ngIf="stateSelected(); then detailBlock else nothingBlock"></div>
+        </div>
+    </div>
+</div>
+<ng-template #detailBlock>
+    <app-detailed-page [stateIdentifier]="stateInitials"></app-detailed-page>
+</ng-template>
+
+<ng-template #nothingBlock>
+    <p> Select a state for its details !!!</p>
+</ng-template>
+
+

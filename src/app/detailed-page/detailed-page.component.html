@@ -1,14 +1,4 @@
-<div>
-    <input #stateIdentifier (keyup.enter)="getState(stateIdentifier.value)">
-    <button (click)="getState(stateIdentifier.value)">
-        Get State details
-    </button>
-</div>
-
-<div *ngIf="updated(); then detailBlock else emptyBlock"></div>
-<ng-template #emptyBlock>
-    <div *ngIf="loading; then loadingBlock else nothingBlock"></div>
-</ng-template>
+<div *ngIf="updated(); then detailBlock else loadingBlock"></div>
 
 <ng-template #detailBlock>
     <p> This is detailed page </p>
@@ -18,8 +8,4 @@
 
 <ng-template #loadingBlock>
     <app-loading></app-loading>
-</ng-template>
-
-<ng-template #nothingBlock>
-    <p> Search details by initials or name</p>
 </ng-template>
