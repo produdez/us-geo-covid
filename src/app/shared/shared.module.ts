@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { LoadingComponent } from './components/loading/loading.component'
-import { LoadingWrapperComponent } from './components/loading-wrapper/loading-wrapper.component'
 import { CovidApiService } from './services/covid-api.service'
 import { HttpService } from './services/http.service'
 import { CastPipe } from './pipes/cast.pipe'
@@ -17,7 +16,6 @@ import { UsStatesGeometryService } from './services/us-states-geometry.service'
 @NgModule({
   declarations: [
     LoadingComponent,
-    LoadingWrapperComponent,
     CastPipe,
     CastListPipe,
     DetailsComponent,
@@ -30,7 +28,6 @@ import { UsStatesGeometryService } from './services/us-states-geometry.service'
   ],
   exports: [
     LoadingComponent,
-    LoadingWrapperComponent,
     CastPipe,
     CastListPipe,
     DetailsComponent,
