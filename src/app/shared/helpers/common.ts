@@ -16,3 +16,7 @@ export function addTime (date: Date, range: number, type?: string) {
     
     return newDate
 }
+
+export function formatDate(date: Date): string {
+    return date.toLocaleDateString("en-GB")
+}

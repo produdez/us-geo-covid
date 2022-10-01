@@ -19,7 +19,6 @@ export class DetailedPageComponent implements OnChanges, OnInit {
     private covidApiService: CovidApiService,
     private ref: ChangeDetectorRef
   ) {}
-  @HostBinding('class.component-border-box')
 
   updated() {
     return this.state !== undefined && !this.loading

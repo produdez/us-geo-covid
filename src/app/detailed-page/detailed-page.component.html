@@ -1,7 +1,7 @@
 <div *ngIf="updated(); then detailBlock else loadingBlock"></div>
 
 <ng-template #detailBlock>
-    <p> This is detailed page </p>
+    <h3 class="text-center"> This is detailed page </h3>
     <app-details [state]="state | cast" [reports]="this.reports"></app-details>
     <app-graphs [state]="state | cast" [reports]="this.reports"></app-graphs>
 </ng-template>

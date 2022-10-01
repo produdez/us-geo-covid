@@ -1,16 +1,23 @@
-<div class="flex flex-col items-center w-5/6 mx-auto">
+<div class="flex flex-col items-center mx-auto px-5 py-3">
     <h2> Timeline</h2>
-    <div class="w-full flex flex-row justify-between">
+    <div class="w-full flex flex-row justify-between font-semibold text-sm">
         <p> {{formatDate(startDate)}}</p>
-        <h4>{{formatDate(selectedDate())}}</h4>
         <p> {{formatDate(endDate)}}</p>
     </div>
-    <input
-    name="value-slider" 
-    type="range" 
-    min={{startValue}} max="{{ endValue }}" 
-    [(ngModel)]="startValue" 
-    (ngModelChange)="setValue($event)" 
-    >
-    <p>Selected Value: {{ selectedValue }}</p>
+    <div class="w-5/6 py-2">
+        <input
+        name="value-slider" 
+        type="range" 
+        min="{{startValue}}" max="{{endValue}}"
+        [ngModel]="selectedValue" 
+        (ngModelChange)="setValue($event)" 
+        >
+    </div>
+    <div class="w-full flex flex-row justify-between">
+        <div class="flex flex-col items-center">
+            <p>Choosing Date: </p>
+            {{ formatDate(selectedDate()) }}
+        </div>
+        <button (click)="onConfirmButtonClicked()"> Confirm Date </button>
+    </div>
 </div>

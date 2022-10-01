@@ -1,12 +1,8 @@
-<h1> Map page</h1>
-<p> Current date: {{date}}</p>
-<div>
-    <button (click)="addTime(-1)"> Sub </button> <button (click)="addTime(1)"> Add </button>
-</div>
-<div>
-    <button (click)="addTime(-1, 'month')"> Sub Month </button> <button (click)="addTime(1, 'month')"> Month </button>
-</div>
-<div>
-    <button (click)="addTime(-1, 'year')"> Sub Year </button> <button (click)="addTime(1, 'year')"> Add Year </button>
+<div class="flex justify-between mt-5">
+    <h1 class="w-3/5 pl-3"> Map page</h1>
+    <div class="w-2/5 truncate flex flex-col text-end pr-5">
+        <p> Current date: </p>
+        <p>{{formatDate(date)}}</p>
+    </div>
 </div>
 <app-choropleth-map [date]="date"></app-choropleth-map>

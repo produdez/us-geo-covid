@@ -2,7 +2,7 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgForm} from '@angular/forms';
 import { RequiredProperty } from '../../decorators/requiredProperty';
-import { addTime } from '../../helpers/common';
+import { addTime, formatDate } from '../../helpers/common';
 import { Output, EventEmitter } from '@angular/core';
 import { CustomDate } from '../../models/customDate';
 @Component({
@@ -21,18 +21,26 @@ export class DateSliderComponent implements OnInit{
   startValue: number = 0
   selectedValue: number = this.startValue
   @Output() selectedEvent = new EventEmitter<CustomDate>();
-  
+
+  formatDate = formatDate
+  lastEmitted = this.startValue
+  updated = () => this.lastEmitted != this.selectedValue // To make sure the value is actually changed when confirm is clicked!
+
   addDay = (date: Date, days: number) => { return addTime(date, days, 'day')}
   addMonth = (date: Date, months: number) => { return addTime(date, months, 'addMonth')}
 
   selectedDate = () => this.addDay(this.startDate,this.selectedValue)
-  formatDate(date: Date): string {
-    return date.toLocaleDateString("en-GB")
-  }
   
   setValue(event: any) {
     this.selectedValue = event
-    this.selectedEvent.emit(this.selectedDate())
+  }
+  onConfirmButtonClicked() {
+    if(this.updated()) {
+      this.selectedEvent.emit(this.selectedDate())
+      this.lastEmitted = this.selectedValue
+    }else{
+      console.log("No value change, no update needed!")
+    }
   }
   ngOnInit() {
     this.endValue = this.startValue + this.sliderRange
