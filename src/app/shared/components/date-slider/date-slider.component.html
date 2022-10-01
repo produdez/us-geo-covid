@@ -1,0 +1,16 @@
+<div class="flex flex-col items-center w-5/6 mx-auto">
+    <h2> Timeline</h2>
+    <div class="w-full flex flex-row justify-between">
+        <p> {{formatDate(startDate)}}</p>
+        <h4>{{formatDate(selectedDate())}}</h4>
+        <p> {{formatDate(endDate)}}</p>
+    </div>
+    <input
+    name="value-slider" 
+    type="range" 
+    min={{startValue}} max="{{ endValue }}" 
+    [(ngModel)]="startValue" 
+    (ngModelChange)="setValue($event)" 
+    >
+    <p>Selected Value: {{ selectedValue }}</p>
+</div>

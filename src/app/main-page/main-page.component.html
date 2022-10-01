@@ -2,7 +2,7 @@
 <div class="h-full flex flex-col">
     <div class="grid grid-cols-4 gap-4 w-full p-2 grow border" >
         <div class="col-span-2 box"> 
-            <app-map-page [date]="date"></app-map-page>
+            <div *ngIf="!loadingDateRange; then mapBlock else loadingBlock"></div>
         </div>
         <div class="col-span-2 box"> 
             <div *ngIf="stateSelected(); then detailBlock else nothingBlock"></div>
@@ -13,11 +13,23 @@
 <!-- Templates  -->
 
 <ng-template #detailBlock>
-    <app-detailed-page [stateIdentifier]="stateInitials"></app-detailed-page>
+    <app-detailed-page [stateIdentifier]="stateInitials | cast"></app-detailed-page>
 </ng-template>
 
 <ng-template #nothingBlock>
     <p> Select a state for its details !!!</p>
+</ng-template>
+
+<ng-template #mapBlock>
+    <app-date-slider 
+        [startDate]="startDate | cast" 
+        [sliderRange]="100"
+        (selectedEvent)="updateDate($event)"
+    ></app-date-slider>
+    <app-map-page [date]="date | cast"></app-map-page>
+</ng-template>
+<ng-template #loadingBlock>
+    <app-loading></app-loading>
 </ng-template>
 
 

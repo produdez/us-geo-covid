@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit } from '@angular/core'
 import { RequiredProperty } from '../shared/decorators/requiredProperty'
 import { Report } from '../shared/models/report'
 import { State } from '../shared/models/state'
@@ -14,12 +14,12 @@ export class DetailedPageComponent implements OnChanges, OnInit {
   state: State | undefined = undefined
   reports : Report[] = []
   loading = false
-
+  
   constructor(
     private covidApiService: CovidApiService,
     private ref: ChangeDetectorRef
-
   ) {}
+  @HostBinding('class.component-border-box')
 
   updated() {
     return this.state !== undefined && !this.loading

@@ -10,7 +10,9 @@ import { GraphsComponent } from './components/graphs/graphs.component'
 import { ChoroplethMapComponent } from './components/choropleth-map/choropleth-map.component'
 import { LeafletModule } from '@asymmetrik/ngx-leaflet'
 import { SharedDataService } from './services/shared-data.service'
-import { UsStatesGeometryService } from './services/us-states-geometry.service'
+import { UsStatesGeometryService } from './services/us-states-geometry.service';
+import { DateSliderComponent } from './components/date-slider/date-slider.component'
+import { FormsModule } from '@angular/forms'
 
 
 @NgModule({
@@ -21,10 +23,12 @@ import { UsStatesGeometryService } from './services/us-states-geometry.service'
     DetailsComponent,
     GraphsComponent,
     ChoroplethMapComponent,
+    DateSliderComponent,
   ],
   imports: [
     CommonModule,
-    LeafletModule
+    LeafletModule,
+    FormsModule,
   ],
   exports: [
     LoadingComponent,
@@ -33,6 +37,7 @@ import { UsStatesGeometryService } from './services/us-states-geometry.service'
     DetailsComponent,
     GraphsComponent,
     ChoroplethMapComponent,
+    DateSliderComponent,
   ],
   providers: [
     CovidApiService,

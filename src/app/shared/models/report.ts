@@ -1,10 +1,11 @@
 import { State } from './state'
 import { JSONConstructed } from './JSONConstructed'
+import { CustomDate } from './customDate'
 
 export class Report extends JSONConstructed {
     // ! NOTE: this syntax allow for creation of automatic constructor (default initialized)
 
-    date: Date = new Date()
+    date: Date = new CustomDate()
     stateId: number = -1
 
     death: number = 0

@@ -7,6 +7,7 @@ import { Report } from '../../models/report'
 import { CovidApiService } from '../../services/covid-api.service'
 import { RequiredProperty } from '../../decorators/requiredProperty'
 import { SharedDataService } from '../../services/shared-data.service'
+import { CustomDate } from '../../models/customDate'
 
 @Component({
   selector: 'app-choropleth-map',

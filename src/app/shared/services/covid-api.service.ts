@@ -14,8 +14,8 @@ export class CovidApiService {
   }
 
 
-  test() {
-    let requestURL = `${this.apiURL}/state-reports/1/`
+  getReportDayRange() {
+    const requestURL = `${this.apiURL}/start-end-date/`
     return this.http.get(requestURL)
   }
 
@@ -37,7 +37,7 @@ export class CovidApiService {
   }
 
   getGeometryData() {
-    let requestURL = `${this.apiURL}/polygons`
+    let requestURL = `${this.apiURL}/polygons/`
     return this.http.getAllPages(requestURL)
   }
 

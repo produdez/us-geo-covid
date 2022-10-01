@@ -6,7 +6,7 @@ import { State } from '../models/state';
   providedIn: 'root'
 })
 export class SharedDataService {
-  private _state = new BehaviorSubject<string>('');
+  private _state = new BehaviorSubject<string | undefined>(undefined);
   public state = this._state.asObservable()
   constructor() {}
 

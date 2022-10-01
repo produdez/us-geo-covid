@@ -1,17 +1,19 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { Report } from 'src/app/shared/models/report'
 import { State } from 'src/app/shared/models/state'
 import * as d3 from "d3"
 import { RequiredProperty } from 'src/app/shared/decorators/requiredProperty'
+import { CustomDate } from '../../models/customDate'
 @Component({
   selector: 'app-graphs',
   templateUrl: './graphs.component.html',
   styleUrls: ['./graphs.component.sass']
 })
 export class GraphsComponent implements OnInit{
+  @HostBinding('class.component-border-box')
   @Input() @RequiredProperty reports!: Report[]
   @Input() @RequiredProperty state!: State
-  
+
   constructor() {
   }
   ngOnInit() {
@@ -21,7 +23,7 @@ export class GraphsComponent implements OnInit{
     var margin = ({top: 20, right: 20, bottom: 20, left: 80})
 
     var x = d3.scaleUtc()
-      .domain(d3.extent(data, d => d.date) as Date[])
+      .domain(d3.extent(data, d => d.date) as CustomDate[])
       .range([margin.left, width + margin.right])
     var y = d3.scaleLinear()
       .domain([d3.min(data, d => d.positive), d3.max(data, d => d.positive)] as number[])
