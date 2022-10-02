@@ -6,7 +6,7 @@ import { HttpService } from './services/http.service'
 import { CastPipe } from './pipes/cast.pipe'
 import { CastListPipe } from './pipes/castList.pipe'
 import { DetailsComponent } from './components/details/details.component'
-import { GraphsComponent } from './components/graphs/graphs.component'
+import { LineGraphComponent } from './components/line-graph/line-graphs.component'
 import { ChoroplethMapComponent } from './components/choropleth-map/choropleth-map.component'
 import { LeafletModule } from '@asymmetrik/ngx-leaflet'
 import { SharedDataService } from './services/shared-data.service'
@@ -21,7 +21,7 @@ import { FormsModule } from '@angular/forms'
     CastPipe,
     CastListPipe,
     DetailsComponent,
-    GraphsComponent,
+    LineGraphComponent,
     ChoroplethMapComponent,
     DateSliderComponent,
   ],
@@ -35,7 +35,7 @@ import { FormsModule } from '@angular/forms'
     CastPipe,
     CastListPipe,
     DetailsComponent,
-    GraphsComponent,
+    LineGraphComponent,
     ChoroplethMapComponent,
     DateSliderComponent,
   ],

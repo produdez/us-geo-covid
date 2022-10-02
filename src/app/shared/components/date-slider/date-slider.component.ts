@@ -12,7 +12,6 @@ import { CustomDate } from '../../models/customDate';
 })
 export class DateSliderComponent implements OnInit{
   constructor() { }
-  @HostBinding('class.component-border-box')
   @Input() @RequiredProperty startDate!: Date
   @Input() @RequiredProperty sliderRange!: number
   endDate!: Date 

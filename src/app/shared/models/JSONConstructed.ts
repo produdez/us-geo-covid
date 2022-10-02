@@ -15,7 +15,7 @@ export class JSONConstructed {
         use the fromJSON() method as the alternative constructor method
         of course the default constructor (automatically created) is still available to make a pre-defined initialized object
     */
-    
+    public json: {[k: string] : any} = {};
     private getAttributeNames() {
         /* Return list of all !initialized! object keys */
         return Object.keys(this)
@@ -34,7 +34,7 @@ export class JSONConstructed {
         
         let normalAttributes = this.getAttributeNames()
         let  specialAttributes = specialCases ? specialCases.map(x => x.attributeName) : []
-        normalAttributes = normalAttributes.filter((value) => (specialAttributes.indexOf(value) === -1))
+        normalAttributes = normalAttributes.filter((value) => (specialAttributes.indexOf(value) === -1 && value != 'json'))
         for (let attributeName of normalAttributes) {
             let value = kwargs.get(attributeName)
             if(value !== null) 
@@ -62,6 +62,10 @@ export class JSONConstructed {
         }
 
         let obj = new this() as T
+        obj.json = json
+        for(let [key, val] of Object.entries(obj.json)) {
+            if(val === null) obj.json[key] = 0
+        }
         obj.assignFromMap(commonHelper.toMap(json))
         return obj
 

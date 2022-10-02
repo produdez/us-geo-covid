@@ -20,8 +20,6 @@ export class MainPageComponent implements OnInit {
   //  state variable
   loadingDateRange = true
 
-  // TODO: URGENT add mechanism to stop the slider when we are fetching data!!!
-  //  and only go fetch data when the user lets of the slider
 
   constructor(
     private sharedDataService: SharedDataService,

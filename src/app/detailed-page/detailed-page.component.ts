@@ -14,7 +14,9 @@ export class DetailedPageComponent implements OnChanges, OnInit {
   state: State | undefined = undefined
   reports : Report[] = []
   loading = false
-  
+  columns: string[] =['positive', 'negative', 'death', 'recovered']
+  graphName = () => 'Covid Situation In ' + this.state?.name
+
   constructor(
     private covidApiService: CovidApiService,
     private ref: ChangeDetectorRef
@@ -29,6 +31,7 @@ export class DetailedPageComponent implements OnChanges, OnInit {
     this.getState(this.stateIdentifier)
   }
   ngOnInit() {
+    console.time('GetReports')
     console.log('Initialized')
   }
 
@@ -47,20 +50,23 @@ export class DetailedPageComponent implements OnChanges, OnInit {
       },
       error: (error: any) => {
         this.failAndAlert(error, `Fail to get state "${stateIdentifier}"`)
+        // TODO: add a message to frontend to display fail to user
       }
     })
   }
 
   getReports(id?: string) {
-    console.log('Getting reports')
+    console.time('Request reports from server')
     this.reports = []
     this.covidApiService.getStateReports(id).subscribe({
       next: (data: {[key: string]: any}[]) => {
+        console.timeEnd('Request reports from server')
+        console.time('Processing reports')
         for (let jsonReport of data) {
-          // TODO: can make this more efficient by converting them during the html request (just add a converterFunction)
-          // Or make use of the next/complete to batch process (https://rxjs.dev/deprecations/subscribe-arguments)
+          // time to process is actually very small so no need to do anything to improve performance
           this.reports.push(Report.fromJSON(jsonReport))
         }
+        console.timeEnd('Processing reports')
         this.loading = false
         this.ref.detectChanges()
       },

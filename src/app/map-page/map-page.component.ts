@@ -11,8 +11,6 @@ import { CustomDate } from '../shared/models/customDate'
 export class MapPageComponent {
   constructor() { }
   
-  @Input() @RequiredProperty date!: Date
-  @HostBinding('class.component-border-box')
-  
+  @Input() @RequiredProperty date!: Date  
   formatDate = formatDate
 }
