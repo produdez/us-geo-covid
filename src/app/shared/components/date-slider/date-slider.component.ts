@@ -46,7 +46,5 @@ export class DateSliderComponent implements OnInit{
     this.endDate = this.addDay(this.startDate, this.sliderRange)
   }
 
-  showTimelinePrompt() {
-    console.log('Hovered')
-  }
+  sliderTooltip = "Use the timeline slider to choose a date and confirm so that map can render the pandemic's progress at that time"
 }

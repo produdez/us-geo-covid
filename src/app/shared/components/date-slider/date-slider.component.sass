@@ -16,15 +16,10 @@ input[name="value-slider"]::-webkit-slider-thumb
   width: 25px
   height: 25px
   border-radius: 50% 
-  background: #04AA6D
   cursor: pointer
+  @apply bg-green-300
 
-
-input[name="value-slider"]::-moz-range-thumb
-  width: 25px
-  height: 25px
-  border-radius: 50%
-  background: #04AA6D
-  cursor: pointer
+input[name="value-slider"]:hover::-webkit-slider-thumb
+    @apply bg-green-400 w-7 h-7
 
 // input[name="value-slider"]::

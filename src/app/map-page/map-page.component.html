@@ -1,8 +1,16 @@
 <div class="h-full flex flex-col">
     <div class="flex justify-between my=3">
-        <h1 class="w-3/5 pl-3"> Covid Heatmap</h1>
+        <div class="flex items-center">
+            <h1 class="w-3/5 pl-3"> Covid Heatmap</h1>
+            <img
+                [tippy]="popOverTooltip" variation="popper" 
+                src="assets/info.png" 
+                alt="info" 
+                class="ml-2 avatar rounded-full aspect-square h-6 shadow-sm shadow-white"
+                >
+        </div>
         <div class="w-2/5 flex flex-col text-end pr-5">
-            <h6 class="truncate"> Currently showing data for: </h6>
+            <h6 class="truncate"> Current Date: </h6>
             <p class="subtitle">{{formatDate(date)}}</p>
         </div>
     </div>
@@ -10,3 +18,8 @@
         <app-choropleth-map [date]="date"></app-choropleth-map>
     </div>
 </div>
+
+<ng-template #popOverTooltip let-hide>
+    <h6>Tips!</h6>
+    <p>{{mapTooltip}}</p>
+</ng-template>

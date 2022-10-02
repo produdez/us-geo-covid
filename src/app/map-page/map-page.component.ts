@@ -13,4 +13,6 @@ export class MapPageComponent {
   
   @Input() @RequiredProperty date!: Date  
   formatDate = formatDate
+
+  mapTooltip = 'Click on any state to show more details and statistics about the situation of the state during the whole pandemic'
 }

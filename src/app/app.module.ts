@@ -12,6 +12,8 @@ import { TestPageComponent } from './test-page/test-page.component'
 import { MapPageComponent } from './map-page/map-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { GraphPageComponent } from './graph-page/graph-page.component'
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +30,13 @@ import { GraphPageComponent } from './graph-page/graph-page.component'
     LeafletModule,
     SharedModule,
     HttpClientModule, // NOTE: Global HttpClientModule for other modules to use!
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

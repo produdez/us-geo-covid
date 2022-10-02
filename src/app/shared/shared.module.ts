@@ -13,6 +13,7 @@ import { SharedDataService } from './services/shared-data.service'
 import { UsStatesGeometryService } from './services/us-states-geometry.service';
 import { DateSliderComponent } from './components/date-slider/date-slider.component'
 import { FormsModule } from '@angular/forms'
+import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 
 
 @NgModule({
@@ -29,6 +30,13 @@ import { FormsModule } from '@angular/forms'
     CommonModule,
     LeafletModule,
     FormsModule,
+    TippyModule.forRoot({
+      defaultVariation: 'tooltip',
+      variations: {
+        tooltip: tooltipVariation,
+        popper: popperVariation,
+      }
+    }),
   ],
   exports: [
     LoadingComponent,
