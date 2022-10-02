@@ -3,36 +3,53 @@
 
 // Overriding style for components
 a 
-    @apply underline hover:text-white font-bold
+    @apply hover:text-white hover:underline
 
 html, body
     @apply bg-gray-900 text-base text-gray-300
     min-height: 100vh
     height: 100vh
     margin: 0 auto
-h1,h2,h3,h4,h5,h6
-    @apply font-medium leading-tight mt-0 mb-2
 h1
-    @apply text-5xl
+    @apply font-bold text-4xl
 h2
-    @apply text-4xl
+    @apply font-extrabold text-3xl
 h3
-    @apply text-3xl
+    @apply font-bold text-2xl
 h4
-    @apply text-2xl
+    @apply font-semibold text-2xl
 h5
-    @apply text-xl
+    @apply font-bold text-xl
 h6
-    @apply text-base
+    @apply font-semibold text-lg
 button
-    @apply border-[0.5px] rounded-md p-2 text-base font-semibold m-1
+    @apply rounded-full bg-green-200 text-gray-900 px-5 text-lg font-bold
+    
+    .mini
+        @apply text-base font-semibold
+
+button:hover
+    @apply bg-gray-300 text-gray-900
 
 .fit-height
     height: 100%
 
 // Custom tailwind classes
 @layer components
+    // Typography
+    .bold
+        @apply font-semibold
+    .subtitle
+        @apply font-medium text-lg
+        .bold
+            @apply font-semibold
+    .description
+        @apply text-sm font-normal
+        .mini
+            @apply text-xs font-normal
+
+    // -------------
     .padding-box
         @apply p-5
     .component-border-box
-        @apply border border-green-300 block m-1
+        @apply border-2 border-green-300 block m-1

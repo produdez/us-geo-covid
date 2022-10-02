@@ -2,15 +2,19 @@
 defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
+  important: true,
   mode: 'jit',
   content: [
     "./src/**/*.{html,ts}",
   ],
   theme: {
     fontFamily: {
-      sans: ['"Raleway"', 'sans-serif']
+        sans: [
+          '"Inter"', 'sans-serif'
+        ],
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [
+  ],
 }

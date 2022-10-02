@@ -1,14 +1,15 @@
-<div class="flex" >
-    <div class="w-1/2"> 
-        <div *ngIf="!loadingDateRange; then mapBlock else loadingBlock"></div>
+<div class="flex min-h-full" >
+    <div class="w-1/2 ml-5 bg-gray-800 rounded-lg flex flex-col"> 
+        <div class="grow" *ngIf="!loadingDateRange; then mapBlock else loadingBlock"></div>
     </div>
-    <div class="w-1/2 component-border-box"> 
-        <div class="h-full">
-            Graph Site
-        </div>
+    <div class="w-1/2 ml-5"> 
+        <app-graph-page></app-graph-page>
     </div>
 </div>
-<div class="flex justify-center" >
+
+<!-- TODO: move this to a modal -->
+<!-- Ref: https://www.creative-tim.com/learning-lab/tailwind-starter-kit/documentation/angular/modals/large -->
+<div class="flex justify-center mt-10" >
     <div class="component-border-box w-2/3">
         <div *ngIf="stateSelected(); then detailBlock else nothingBlock"></div>
     </div>
@@ -25,19 +26,24 @@
 </ng-template>
 
 <ng-template #mapBlock>
-    <div class="component-border-box">
-        <app-date-slider 
-            [startDate]="startDate | cast" 
-            [sliderRange]="dateRange | cast"
-            (selectedEvent)="updateDate($event)"
-        ></app-date-slider>
+    <div>
+        <div class="mb-3">
+            <app-date-slider 
+                [startDate]="startDate | cast" 
+                [sliderRange]="dateRange | cast"
+                (selectedEvent)="updateDate($event)"
+            ></app-date-slider>
+        </div>
+        <div  class="border-b-2 border-green-300 w-5/6 mx-auto"></div>
     </div>
-    <div class="component-border-box">
+    <div class="mt-3">
         <app-map-page [date]="date | cast"></app-map-page>
     </div>
 </ng-template>
 
 <ng-template #loadingBlock>
-    <app-loading></app-loading>
+    <div class="component-border-box h-full">
+        <app-loading></app-loading>
+    </div>
 </ng-template>
 

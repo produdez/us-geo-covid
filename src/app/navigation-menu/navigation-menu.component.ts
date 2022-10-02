@@ -9,4 +9,7 @@ export class NavigationMenuComponent {
   routes = navigationRoutes.map((route) => "/" + route.path)
   constructor() { }
 
+  openGithub(){
+    window.open('https://github.com/produdez', "_blank");
+  }
 }

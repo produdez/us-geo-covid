@@ -45,4 +45,8 @@ export class DateSliderComponent implements OnInit{
     this.endValue = this.startValue + this.sliderRange
     this.endDate = this.addDay(this.startDate, this.sliderRange)
   }
+
+  showTimelinePrompt() {
+    console.log('Hovered')
+  }
 }

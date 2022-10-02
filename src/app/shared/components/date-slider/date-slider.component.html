@@ -1,5 +1,13 @@
 <div class="flex flex-col items-center mx-auto px-5 py-3">
-    <h2> Timeline</h2>
+    <div class="flex items-center">
+        <h2> Timeline</h2>
+        <img 
+            (mouseover)="showTimelinePrompt()"
+            src="assets/info.png" 
+            alt="info" 
+            class="ml-2 avatar rounded-full aspect-square h-6 shadow-sm shadow-white"
+            >
+    </div>
     <div class="w-full flex flex-row justify-between font-semibold text-sm">
         <p> {{formatDate(startDate)}}</p>
         <p> {{formatDate(endDate)}}</p>
