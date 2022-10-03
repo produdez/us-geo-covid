@@ -1,9 +1,15 @@
 <div class="flex min-h-full" >
-    <div class="w-1/2 ml-5 bg-gray-800 rounded-lg flex flex-col"> 
-        <div class="grow" *ngIf="!loadingDateRange; then mapBlock else loadingBlock"></div>
+    <div class="w-2/5 ml-5 bg-gray-800 rounded-lg flex flex-col self-stretch"> 
+        <div class="flex-grow" *ngIf="!loadingDateRange; then mapBlock else loadingBlock"></div>
     </div>
-    <div class="w-1/2 ml-5"> 
-        <app-graph-page></app-graph-page>
+    <div class="w-3/5 ml-5">
+        <app-graph-page
+            [currentDate]="date | cast"
+            [globalReports]="globalReports | cast"
+            [todayReports]="localReports | cast"
+            [loadedGlobalReports]="loadedGlobalReports"
+            [loadedLocalReports]="loadedLocalReports"
+        ></app-graph-page>
     </div>
 </div>
 
@@ -36,8 +42,8 @@
         </div>
         <div  class="border-b-2 border-green-300 w-5/6 mx-auto"></div>
     </div>
-    <div class="mt-3">
-        <app-map-page [date]="date | cast"></app-map-page>
+    <div class="mt-3 flex-grow">
+        <app-map-page [date]="date | cast" [reports]="localReports | cast"></app-map-page>
     </div>
 </ng-template>
 

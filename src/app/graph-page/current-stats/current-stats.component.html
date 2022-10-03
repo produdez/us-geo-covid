@@ -1,0 +1,50 @@
+<div class="h-full w-full" *ngIf="(data !== undefined); then dataBlock else loadingBlock">
+</div>
+
+<ng-template #dataBlock>
+    <h3 class="pb-5">Current Stats</h3>
+    <div class="flex flex-col items-center">
+        <div class="flex justify-between w-5/6">
+            <div class="flex text-red-500">
+                <h6> Positive: </h6>
+                <p class="p-self-center"> {{data?.positive}}</p>
+            </div>
+            
+            <div class="flex">
+                <h6> On Ventilation: </h6>
+                <p class="p-self-center"> {{data?.onVentilatorCumulative}}</p>
+            </div>
+        </div>
+        <div class="flex justify-between w-5/6">
+            <div class="flex text-green-500">
+                <h6> Negative: </h6>
+                <p class="p-self-center"> {{data?.negative}}</p>
+            </div>
+            
+            <div class="flex">
+                <h6> Hospitalized: </h6>
+                <p class="p-self-center"> {{data?.hospitalizedCumulative}}</p>
+            </div>
+        </div>
+        <div class="flex justify-between w-5/6">
+            <div class="flex text-yellow-200">
+                <h6> Recovered: </h6>
+                <p class="p-self-center"> {{data?.recovered}}</p>
+            </div>
+
+            <div class="flex">
+                <h6> In ICU: </h6>
+                <p class="p-self-center"> {{data?.inIcuCumulative}}</p>
+            </div>
+        </div>
+
+        <div class="flex text-cyan-800">
+            <h6> Death: </h6>
+            <p class="p-self-center"> {{data?.death}}</p>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #loadingBlock>
+    <app-loading></app-loading>
+</ng-template>

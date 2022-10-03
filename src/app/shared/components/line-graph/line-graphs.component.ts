@@ -1,5 +1,5 @@
-import { Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
-import { Report } from 'src/app/shared/models/report'
+import { Component, ElementRef, HostBinding, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core'
+import { GlobalReport, Report } from 'src/app/shared/models/report'
 import { State } from 'src/app/shared/models/state'
 import * as d3 from "d3"
 import { RequiredProperty } from 'src/app/shared/decorators/requiredProperty'
@@ -11,22 +11,27 @@ import { Line } from 'd3'
   styleUrls: ['./line-graphs.component.sass']
 })
 export class LineGraphComponent implements OnInit{
+  @ViewChild('chart') private chartContainer: ElementRef | undefined;
+  @Input() @RequiredProperty graphId!: string
+  graphHTMLId = ''
+  @HostBinding('class.fit-height')
   @HostBinding('class.component-border-box')
-  @Input() @RequiredProperty data!: Report[]
+  @Input() @RequiredProperty data!: (Report | GlobalReport)[]
   @Input() @RequiredProperty graphName!: string
   @Input() @RequiredProperty columns!: string[]
   colors =  ['#00876c', '#529f78', '#81b788', '#adce9c', '#d7e6b4', '#ffffd1', '#f5dea4', '#eebb7d', '#e99562', '#e16c53', '#d43d51',]
   colorsDict = {} as {[key: string]: any}
   color(id: any) {
-    console.log(this.colorsDict)
     return this.colorsDict[id]
   }
-  constructor() {}
+  constructor(elementRef: ElementRef) {
+    this.chartContainer = elementRef
+  }
   setupVariables() {
     var zippedMap = this.columns.map((column, index) => ({key: column, value: this.colors[index]}))
     this.colorsDict = zippedMap.reduce((obj, item) => Object.assign(obj, { [item.key]: item.value }), {})
   }
-  transform(data: Report[]) {
+  transform(data: (Report| GlobalReport)[]) {
     return this.columns.map((column) => {
       return {
         id: column,
@@ -41,12 +46,13 @@ export class LineGraphComponent implements OnInit{
     })
   }
   ngOnInit() {
+    this.graphHTMLId = 'd3-line-graph-' + this.graphId
     this.setupVariables()
     const data = this.transform(this.data)
 
     console.time("DrawGraph");
-    var height = 400
-    var width = 800
+    var height = 500
+    var width = 600 
     var margin = ({top: 20, right: 20, bottom: 20, left: 80})
     var extraPadding = 10
 
@@ -83,7 +89,8 @@ export class LineGraphComponent implements OnInit{
     }
 
     const createGraphContainer = () => {
-      var svg = d3.select('#d3-graph') // ! svg graph component
+      var d3Element = (this.chartContainer as ElementRef).nativeElement;
+      var svg = d3.select(d3Element).select('#d3-graph')
         .attr("viewBox", "0 0 " + width + " " + height )
         .attr("preserveAspectRatio", "xMinYMin")
       return svg
@@ -110,7 +117,6 @@ export class LineGraphComponent implements OnInit{
         .attr("d", function(d: any) { return line(d.values); })
         .style("fill", "none")
         .style("stroke", (d: any) => {
-          console.log('stroke: ', this.color(d.id))
           return this.color(d.id)
         })
         .style("stroke-width", 2)
@@ -159,6 +165,13 @@ export class LineGraphComponent implements OnInit{
     createGraphAndAddComponents(components, svg)
     addLegend(svg)
 
+    var aspect = width / height
+    d3.select(window)
+      .on("resize", function() {
+        var targetWidth = (svg.node() as Element).getBoundingClientRect().width;
+        svg.attr("width", targetWidth);
+        svg.attr("height", targetWidth / aspect);
+      });
     console.timeEnd("DrawGraph");
   }
 }

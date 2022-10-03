@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CustomDate } from '../shared/models/customDate';
+import { GlobalReport, Report } from '../shared/models/report';
 import { CovidApiService } from '../shared/services/covid-api.service';
 import { SharedDataService } from '../shared/services/shared-data.service';
 @Component({
@@ -16,6 +17,10 @@ export class MainPageComponent implements OnInit {
 
   // data stream
   state = this.sharedDataService.state
+  localReports: Report[] = []
+  loadedLocalReports =false
+  globalReports: GlobalReport[] = []
+  loadedGlobalReports = false
 
   //  state variable
   loadingDateRange = true
@@ -33,17 +38,41 @@ export class MainPageComponent implements OnInit {
 
   updateDate(emittedDate: Date): void {
     this.date = emittedDate
+
+    this.updateLocalReports()
+  }
+
+  updateLocalReports() {
+    if(this.date) {
+      this.loadedLocalReports = false
+      this.localReports = []
+      this.covidApiService.getDateReports(this.date.getFullYear(), this.date.getMonth(), this.date.getDate()).subscribe(data => {
+        for(let reportJson of data) {
+          this.localReports.push(Report.fromJSON<Report>(reportJson))
+        }
+        this.loadedLocalReports = true
+        console.log(this.localReports)
+        this.ref.detectChanges()
+      })
+    }
   }
   
   ngOnInit(): void {
-    this.covidApiService.getReportDayRange().pipe().subscribe((data) => {
+    this.covidApiService.getGlobalReport().subscribe(reports =>{
+      for(let reportJson of reports) {
+        this.globalReports.push(GlobalReport.fromJSON(reportJson))
+      }
+      this.loadedGlobalReports = true
+      this.ref.detectChanges()
+    })
+    this.covidApiService.getReportDayRange().subscribe((data) => {
       console.log(data)
       this.startDate = new CustomDate(data['start'])
       this.dateRange = data['range']
       this.date = this.startDate
       this.loadingDateRange = false
       this.ref.detectChanges()
-
+      this.updateLocalReports()
       this.sharedDataService.state.subscribe((state) => {
         this.stateInitials = undefined
         this.ref.detectChanges()

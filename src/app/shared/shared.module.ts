@@ -14,6 +14,7 @@ import { UsStatesGeometryService } from './services/us-states-geometry.service';
 import { DateSliderComponent } from './components/date-slider/date-slider.component'
 import { FormsModule } from '@angular/forms'
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopp
     LineGraphComponent,
     ChoroplethMapComponent,
     DateSliderComponent,
+    PieChartComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopp
     LineGraphComponent,
     ChoroplethMapComponent,
     DateSliderComponent,
+    PieChartComponent,
   ],
   providers: [
     CovidApiService,

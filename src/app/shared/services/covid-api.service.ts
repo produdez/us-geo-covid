@@ -45,4 +45,9 @@ export class CovidApiService {
     let requestURL = `${this.apiURL}/date-reports/${year}/${month}/${day}/`
     return this.http.getAllPages(requestURL)
   }
+
+  getGlobalReport() {
+    let requestURL = `${this.apiURL}/global-reports/`
+    return this.http.getAllPages(requestURL)
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core'
+import { Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core'
 import * as L from 'leaflet'
 import { UsStatesGeometryService } from '../../services/us-states-geometry.service'
 import {CustomLeafletControl} from './custom-leaflet-control'
@@ -24,20 +24,22 @@ export class ChoroplethMapComponent implements OnInit, OnChanges {
     private covidApiService: CovidApiService,
     private sharedDataService: SharedDataService,
   ) {}
+  @HostBinding('class.fit-height')
   @Input() @RequiredProperty date!: Date
+  @Input() reports = [] as Report[]
   geometryData = undefined as any
-  reports = [] as Report[]
-  private loadedGeo = false
-  private loadedReports = false
 
   loaded = () => {
-    var loaded = this.loadedGeo && this.loadedReports
+    var loaded = this.loadedGeo() && this.loadedReports()
     if(loaded) {
       // ! Callbacks to run before map is ready
       this.usStatesGeometryService.constructGeoJsonWithReportData(this.reports)
     }
     return loaded
   }
+
+  loadedReports = () => this.reports.length != 0
+  loadedGeo = () => this.geometryData !== undefined
   
 
   options = {
@@ -54,20 +56,12 @@ export class ChoroplethMapComponent implements OnInit, OnChanges {
     this.usStatesGeometryService.statesGeometry.subscribe(data => {
       if(data.length > 0) {
         this.geometryData = this.usStatesGeometryService.constructGeoJSON()
-        this.loadedGeo = true
       }
     })
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.loadedReports = false
-    this.reports = []
-    this.covidApiService.getDateReports(this.date.getFullYear(), this.date.getMonth(), this.date.getDate()).subscribe(data => {
-      for(let reportJson of data) {
-        this.reports.push(Report.fromJSON<Report>(reportJson))
-      }
-      this.loadedReports = true
-    })
+    console.log(changes)
   }
 
   onMapReady(map: L.Map) {
