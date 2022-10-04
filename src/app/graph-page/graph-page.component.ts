@@ -15,7 +15,7 @@ export class GraphPageComponent implements OnInit {
   @Input() globalReports: GlobalReport[] = []
   @Input() currentDate!: Date | undefined
 
-  @Input() loadedLocalReports: boolean = false
+  @Input() loadedTodayReports: boolean = false
   @Input() loadedGlobalReports: boolean = false
   loadedDate = () => this.currentDate != undefined
 

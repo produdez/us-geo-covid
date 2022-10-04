@@ -1,39 +1,42 @@
-import { Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core'
+import { Component, Input, NgZone, OnInit } from '@angular/core'
 import * as L from 'leaflet'
 import { UsStatesGeometryService } from '../../services/us-states-geometry.service'
 import {CustomLeafletControl} from './custom-leaflet-control'
 import { MapStylingService } from './map-styling.service'
 import { Report } from '../../models/report'
-import { CovidApiService } from '../../services/covid-api.service'
 import { RequiredProperty } from '../../decorators/requiredProperty'
 import { SharedDataService } from '../../services/shared-data.service'
-import { CustomDate } from '../../models/customDate'
+import { DialogService } from '@ngneat/dialog'
+import { DetailPageDialogComponent } from '../dialogs/detail-page-dialog/detail-page-dialog.component'
 
 @Component({
   selector: 'app-choropleth-map',
   templateUrl: './choropleth-map.component.html',
   styleUrls: ['./choropleth-map.component.sass'],
-  encapsulation: ViewEncapsulation.None // ! NOTE VERY IMPORTANT
+  // encapsulation: ViewEncapsulation.None // ! NOTE VERY IMPORTANT
 })
-export class ChoroplethMapComponent implements OnInit, OnChanges {
+export class ChoroplethMapComponent implements OnInit {
   // TODO: 1.5: modulate the map code currently messy (if needed to then change later)
-  // TODO: 4 -> add some general graphs to the layout
   constructor (
     private style: MapStylingService,
     private usStatesGeometryService: UsStatesGeometryService,
-    private covidApiService: CovidApiService,
     private sharedDataService: SharedDataService,
-  ) {}
-  @HostBinding('class.fit-height')
-  @Input() @RequiredProperty date!: Date
-  @Input() reports = [] as Report[]
-  geometryData = undefined as any
+    private dialogService: DialogService,
+    private zone: NgZone
+  ) {
 
+  }
+  @Input() @RequiredProperty date!: Date
+  @Input() @RequiredProperty reports!: Report[]
+  geometryData = undefined as any
+  reportUpdated = false
+    
   loaded = () => {
     var loaded = this.loadedGeo() && this.loadedReports()
     if(loaded) {
-      // ! Callbacks to run before map is ready
-      this.usStatesGeometryService.constructGeoJsonWithReportData(this.reports)
+      if(this.reportUpdated) {
+        this.reportUpdated = false
+      }
     }
     return loaded
   }
@@ -56,12 +59,9 @@ export class ChoroplethMapComponent implements OnInit, OnChanges {
     this.usStatesGeometryService.statesGeometry.subscribe(data => {
       if(data.length > 0) {
         this.geometryData = this.usStatesGeometryService.constructGeoJSON()
+        this.usStatesGeometryService.constructGeoJsonWithReportData(this.reports)
       }
     })
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
   }
 
   onMapReady(map: L.Map) {
@@ -95,13 +95,21 @@ export class ChoroplethMapComponent implements OnInit, OnChanges {
       layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: selectStateForDetailShowing
+        click: selectStateForDetailShowing,
       })
     }
   
     const selectStateForDetailShowing = (e: L.LayerEvent) => {
-      var inits = e.target.feature.properties['initials']
+      var inits = e.target.feature.properties['stateInitials']
       this.sharedDataService.updateState(inits)
+      // ! This ngZone is used to make angular know were' calling a function in the angular "zone"
+      this.zone.run(() => {
+        this.dialogService.open(DetailPageDialogComponent, {
+          data: {
+            stateIdentifier: inits
+          }
+        })
+      })
     }
 
 

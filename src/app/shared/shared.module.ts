@@ -15,6 +15,8 @@ import { DateSliderComponent } from './components/date-slider/date-slider.compon
 import { FormsModule } from '@angular/forms'
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { DetailPageDialogComponent } from './components/dialogs/detail-page-dialog/detail-page-dialog.component';
+import { DetailedPageComponent } from './components/wrappable/detailed-page/detailed-page.component'
 
 
 @NgModule({
@@ -27,6 +29,8 @@ import { PieChartComponent } from './components/pie-chart/pie-chart.component';
     ChoroplethMapComponent,
     DateSliderComponent,
     PieChartComponent,
+    DetailPageDialogComponent,
+    DetailedPageComponent
   ],
   imports: [
     CommonModule,
@@ -49,6 +53,8 @@ import { PieChartComponent } from './components/pie-chart/pie-chart.component';
     ChoroplethMapComponent,
     DateSliderComponent,
     PieChartComponent,
+    DetailPageDialogComponent,
+    DetailedPageComponent
   ],
   providers: [
     CovidApiService,

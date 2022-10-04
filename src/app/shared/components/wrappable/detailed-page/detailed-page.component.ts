@@ -1,8 +1,10 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit } from '@angular/core'
-import { RequiredProperty } from '../shared/decorators/requiredProperty'
-import { Report } from '../shared/models/report'
-import { State } from '../shared/models/state'
-import { CovidApiService } from '../shared/services/covid-api.service'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit } from '@angular/core'
+import { RequiredProperty } from '../../../decorators/requiredProperty'
+import { Report } from '../../../models/report'
+import { State } from '../../../models/state'
+import { CovidApiService } from '../../../services/covid-api.service'
+import { DialogService, DialogRef } from '@ngneat/dialog';
+import { Data } from '@angular/router'
 
 @Component({
   selector: 'app-detailed-page',
@@ -19,7 +21,7 @@ export class DetailedPageComponent implements OnChanges, OnInit {
 
   constructor(
     private covidApiService: CovidApiService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
   ) {}
 
   updated() {
@@ -27,12 +29,12 @@ export class DetailedPageComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
-    console.log('Detail page state: ', this.stateIdentifier)
-    this.getState(this.stateIdentifier)
+    console.log('ngOnChanges detailed-page')
   }
   ngOnInit() {
-    console.time('GetReports')
-    console.log('Initialized')
+    console.log('Initialized detailed-page')
+    // console.log('Inits: ', this.stateIdentifier)
+    this.getState(this.stateIdentifier)
   }
 
   stringifiedReports() {

@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import './tailwind.css'
+@import './tailwind.scss'
 @import '~tippy.js/dist/tippy.css'
 @import '~tippy.js/themes/light.css'
 @import '~tippy.js/animations/scale.css'
@@ -59,3 +59,12 @@ button:hover
 
     .p-self-center
         @apply self-center pl-1
+
+ngneat-dialog
+    .ngneat-dialog-backdrop
+        @apply bg-slate-400
+        --tw-bg-opacity: 80%
+
+        .ngneat-dialog-content
+            @apply bg-gray-900 text-base text-gray-300 rounded-xl p-5 
+    

@@ -7,10 +7,10 @@
     </div>
     <ul class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex mx-auto items-center w-auto content-between">
         <ng-template ngFor let-path [ngForOf]="routes">
-        <div class="w-[0.8px] h-3 bg-white"></div>
-        <h4>
-            <a class="padding-box" routerLink={{path}} routerLinkActive="active" ariaCurrentWhenActive="page">{{path.slice(1)}}</a>
-        </h4>
+            <div class="w-[0.8px] h-3 bg-white"></div>
+            <h4>
+                <a class="padding-box" routerLink={{path}} routerLinkActive="active" ariaCurrentWhenActive="page">{{path.slice(1)}}</a>
+            </h4>
         </ng-template>
         <div class="w-[0.8px] h-3 bg-white"></div>
     </ul>

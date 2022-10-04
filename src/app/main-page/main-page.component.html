@@ -1,37 +1,23 @@
 <div class="flex min-h-full" >
-    <div class="w-2/5 ml-5 bg-gray-800 rounded-lg flex flex-col self-stretch"> 
-        <div class="flex-grow" *ngIf="!loadingDateRange; then mapBlock else loadingBlock"></div>
+    <div class="w-2/5 ml-5 bg-gray-800 rounded-lg flex flex-col self-stretch mb-5"> 
+        <div class="flex-grow" *ngIf="!loadingDateRange; then mapBlockWSlider else loadingBlock"></div>
     </div>
     <div class="w-3/5 ml-5">
         <app-graph-page
             [currentDate]="date | cast"
             [globalReports]="globalReports | cast"
-            [todayReports]="localReports | cast"
+            [todayReports]="todayReports | cast"
             [loadedGlobalReports]="loadedGlobalReports"
-            [loadedLocalReports]="loadedLocalReports"
+            [loadedTodayReports]="loadedTodayReports"
         ></app-graph-page>
     </div>
 </div>
-
-<!-- TODO: move this to a modal -->
-<!-- Ref: https://www.creative-tim.com/learning-lab/tailwind-starter-kit/documentation/angular/modals/large -->
-<div class="flex justify-center mt-10" >
-    <div class="component-border-box w-2/3">
-        <div *ngIf="stateSelected(); then detailBlock else nothingBlock"></div>
-    </div>
-</div>
-
-<!-- Templates  -->
-
-<ng-template #detailBlock>
-    <app-detailed-page [stateIdentifier]="stateInitials | cast"></app-detailed-page>
-</ng-template>
 
 <ng-template #nothingBlock>
     <h4 class="text-center italic mt-5"> Select a state for its details !!!</h4>
 </ng-template>
 
-<ng-template #mapBlock>
+<ng-template #mapBlockWSlider>
     <div>
         <div class="mb-3">
             <app-date-slider 
@@ -43,7 +29,7 @@
         <div  class="border-b-2 border-green-300 w-5/6 mx-auto"></div>
     </div>
     <div class="mt-3 flex-grow">
-        <app-map-page [date]="date | cast" [reports]="localReports | cast"></app-map-page>
+        <div *ngIf="loadedTodayReports; then mapBlock else loadingBlock"></div>
     </div>
 </ng-template>
 
@@ -53,3 +39,6 @@
     </div>
 </ng-template>
 
+<ng-template #mapBlock>
+    <app-map-page [date]="date | cast" [reports]="todayReports | cast"></app-map-page>
+</ng-template>

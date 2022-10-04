@@ -21,7 +21,10 @@ export class UsStatesGeometryService {
   
   private initializeGeometryData() {
     this.covidApiService.getGeometryData().subscribe((data) => {
-      this._statesGeometry.next(data)
+      this._statesGeometry.next(data.sort((featureA, featureB) => {
+        // Sort to make sure everything is in the same order
+        return featureA['state_id'] < featureB['state_id'] ? -1 : 1
+      }))
     })
   }
 
@@ -33,9 +36,14 @@ export class UsStatesGeometryService {
     this._geoJson = <geojson.FeatureCollection>{
       "type": "FeatureCollection",
       "features": geometryList.map((feature: any) => {
+        if(!feature.state_id) console.error("FUCKED: ", feature)
         return {
           "type": "Feature",
-          "properties": {...feature.state}, // state empty give null value
+          "properties": {
+            stateId: feature.state_id, 
+            stateName: feature.state_name, 
+            stateInitials: feature.state_initials
+          }, // state empty give null value
           "geometry" : {
             "coordinates" : JSON.parse(feature.coordinates),
             "type": feature.type
@@ -48,9 +56,23 @@ export class UsStatesGeometryService {
   }
 
   private _joinReportData(reports: Report[]) {
-    this._geoJson['features'].forEach((_: any, index: number) => {
-      this._geoJson['features'][index]['properties']['report'] = reports[index]
-    })
+    if(reports.length < this._geoJson['features'].length){
+      reports.forEach((report) => {
+        for (let [index, geoData] of this._geoJson['features'].entries()) {
+          if(geoData['properties']['stateId'] == report.stateId) {
+            this._geoJson['features'][index]['properties']['report'] = report
+            break
+          }
+        }
+      })
+    } else if (reports.length == this._geoJson['features'].length) {
+      reports = reports.sort((a, b) => a.stateId < b.stateId ? -1 : 1)
+      reports.forEach((report, index) => {
+        this._geoJson['features'][index]['properties']['report'] = report
+      })
+    } else {
+      console.error("THIS IS FUCKED :)")
+    }
   }
 
   public constructGeoJsonWithReportData(reports: Report[]) {

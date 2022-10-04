@@ -14,8 +14,6 @@ export class LineGraphComponent implements OnInit{
   @ViewChild('chart') private chartContainer: ElementRef | undefined;
   @Input() @RequiredProperty graphId!: string
   graphHTMLId = ''
-  @HostBinding('class.fit-height')
-  @HostBinding('class.component-border-box')
   @Input() @RequiredProperty data!: (Report | GlobalReport)[]
   @Input() @RequiredProperty graphName!: string
   @Input() @RequiredProperty columns!: string[]

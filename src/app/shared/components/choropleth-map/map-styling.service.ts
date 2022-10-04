@@ -16,7 +16,7 @@ export class MapStylingService {
   constructor() { }
 
   getColor(d: number): string{
-    const color = d < 0 || d == undefined ? 
+    const color = d <= 0 || d == undefined ? 
       "#FFFFFF" // ! Transparent if no value
       : this._gradient.hsvAt(d/this.maxPropertyValue > 1 ? 1.0 : d/this.maxPropertyValue).toHexString()
     return color

@@ -5,9 +5,12 @@
     </div>
     <div class="grid grid-cols-2 grid-rows-2 items-stretch w-full gap-5 grow p-5">
         <div class="text-center flex flex-col justify-center bg-gray-800 rounded-lg">
-            <div *ngIf="loadedLocalReports; then rankings else loadingBlock"></div>
+            <div *ngIf="loadedTodayReports; then rankings else loadingBlock"></div>
             <ng-template #rankings>
-                <app-ranking></app-ranking>
+                <app-ranking
+                    [todayReports]="todayReports"
+                    [todayDate]="currentDate | cast"
+                ></app-ranking>
             </ng-template>
         </div>
         <div class="text-center flex flex-col justify-center bg-gray-800 rounded-lg">
@@ -41,7 +44,7 @@
             </ng-template>
         </div>
         <div class="text-center flex flex-col justify-center bg-gray-800 rounded-lg">
-            <div *ngIf="loadedLocalReports; then pieChart else loadingBlock"></div>
+            <div *ngIf="loadedTodayReports; then pieChart else loadingBlock"></div>
             <ng-template #pieChart>
                 <app-pie-chart></app-pie-chart>
             </ng-template>

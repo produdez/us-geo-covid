@@ -1,1 +1,47 @@
-<p>ranking works!</p>
+<div>
+    <div>
+        <h3 class="text-green-300"> Top Covid-ed States: </h3>
+        <div class="w-full h-full">
+            <ul *ngFor="let report of top10; index as i">
+                <li class="flex justify-start h-1/5">
+                    <div class="flex justify-between w-full h-full px-5">
+                        <p class="subtitle">{{i + 1}}</p>
+
+                        <div class="text-ellipsis">
+                            <p class="pl-2 p-self-center">{{top10Names[i]}}</p>
+                        </div>
+                        
+                        <div class="flex justify-items-end">
+                            <div *ngIf="rankingFluctuation[i] != 0;then ranking"></div>
+                            <div *ngIf="rankingFluctuation[i] > 0;then upArrow else downOrDot"></div>
+                            
+                            <ng-template #ranking>
+                                <p> {{rankingFluctuation[i]}}</p>
+                            </ng-template>
+                            <ng-template #downOrDot>
+                                <div *ngIf="rankingFluctuation[i] < 0;then downArrow else dot"></div>
+                            </ng-template>
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <h6 class="text-red-300"> States Infected: {{todayReports.length}}</h6>
+</div>
+
+
+
+
+<ng-template #upArrow>
+    <svg class="w-6 h-6 stroke-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"></path></svg>
+</ng-template>
+
+<ng-template #downArrow>
+    <svg class="w-6 h-6 stroke-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"></path></svg>
+</ng-template>
+
+<ng-template #dot>
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+</ng-template>

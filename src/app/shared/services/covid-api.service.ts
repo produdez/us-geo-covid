@@ -31,6 +31,11 @@ export class CovidApiService {
     return this.http.get(requestURL)
   }
 
+  getStateById(id: string) {
+    let requestURL = `${this.apiURL}/state/id/${id}/`
+    return this.http.get(requestURL)
+  }
+
   getStateReports(id?: string){
     let requestURL = `${this.apiURL}/state-reports/${id}/`
     return this.http.getAllPages(requestURL)

@@ -30,9 +30,12 @@ export class DateSliderComponent implements OnInit{
 
   selectedDate = () => this.addDay(this.startDate,this.selectedValue)
   
-  setValue(event: any) {
+  setValue(event: number) {
+    if(event > this.endValue) this.selectedValue = this.endValue
+    if(event < this.startValue) this.selectedValue = this.startValue
     this.selectedValue = event
   }
+
   onConfirmButtonClicked() {
     if(this.updated()) {
       this.selectedEvent.emit(this.selectedDate())
@@ -47,4 +50,5 @@ export class DateSliderComponent implements OnInit{
   }
 
   sliderTooltip = "Use the timeline slider to choose a date and confirm so that map can render the pandemic's progress at that time"
+  sliderTooltip1 = "Arrows will help you find tune your choice (by increments of 1 and 10) !!"
 }

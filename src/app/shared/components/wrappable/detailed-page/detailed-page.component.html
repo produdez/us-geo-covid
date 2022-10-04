@@ -1,0 +1,17 @@
+<div class="w-full h-full">
+    <div *ngIf="updated(); then detailBlock else loadingBlock"></div>
+</div>
+
+<ng-template #detailBlock>
+    <div class="flex flex-col w-full h-full">
+        <h2 class="text-center"> Details !! </h2>
+        <app-details [state]="state | cast" [reports]="this.reports"></app-details>
+        <div class="inline-flex flex-grow justify-center component-border-box">
+            <app-line-graphs [columns]="columns" [graphName]="graphName()" [data]="this.reports" [graphId]="'state-detail'"></app-line-graphs>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #loadingBlock>
+    <app-loading></app-loading>
+</ng-template>
