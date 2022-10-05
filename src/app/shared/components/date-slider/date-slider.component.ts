@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgForm} from '@angular/forms';
 import { RequiredProperty } from '../../decorators/requiredProperty';
@@ -10,13 +10,16 @@ import { CustomDate } from '../../models/customDate';
   templateUrl: './date-slider.component.html',
   styleUrls: ['./date-slider.component.sass']
 })
-export class DateSliderComponent implements OnInit{
+export class DateSliderComponent implements OnInit, OnChanges{
+  // TODO: freeze slider when map is not finish loading
   constructor() { }
   @Input() @RequiredProperty startDate!: Date
   @Input() @RequiredProperty sliderRange!: number
   endDate!: Date 
   endValue!: number
-  
+
+  @Input() @RequiredProperty loading!: boolean
+  @HostBinding('class.frozen-slider') get frozen() { return this.loading; }
   startValue: number = 0
   selectedValue: number = this.startValue
   @Output() selectedEvent = new EventEmitter<CustomDate>();
@@ -37,16 +40,25 @@ export class DateSliderComponent implements OnInit{
   }
 
   onConfirmButtonClicked() {
+    if(this.loading) {
+      console.warn('Waiting for previous map update, please, wait!')
+      return
+    }
     if(this.updated()) {
       this.selectedEvent.emit(this.selectedDate())
       this.lastEmitted = this.selectedValue
     }else{
+      // TODO: change this into a prompt instead of a console log
       console.log("No value change, no update needed!")
     }
   }
   ngOnInit() {
     this.endValue = this.startValue + this.sliderRange
     this.endDate = this.addDay(this.startDate, this.sliderRange)
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.info("changes", changes)
   }
 
   sliderTooltip = "Use the timeline slider to choose a date and confirm so that map can render the pandemic's progress at that time"

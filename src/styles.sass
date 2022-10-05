@@ -48,8 +48,8 @@ button:hover
             @apply font-semibold
     .description
         @apply text-sm font-normal
-        .mini
-            @apply text-xs font-normal
+    .description-mini
+        @apply text-xs font-normal
 
     // -------------
     .padding-box
@@ -59,12 +59,23 @@ button:hover
 
     .p-self-center
         @apply self-center pl-1
+    .frozen-slider
+        @apply opacity-30
+
+div data-tippy-root
+    max-width: 800px
+
+div
+    *
+        @apply min-h-0
+
+
 
 ngneat-dialog
     .ngneat-dialog-backdrop
-        @apply bg-slate-400
+        @apply bg-slate-400 inline-flex
         --tw-bg-opacity: 80%
 
         .ngneat-dialog-content
-            @apply bg-gray-900 text-base text-gray-300 rounded-xl p-5 
+            @apply bg-gray-900 text-base text-gray-300 rounded-xl p-5 inline-flex  
     

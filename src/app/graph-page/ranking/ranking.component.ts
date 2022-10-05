@@ -18,7 +18,11 @@ export class RankingComponent implements OnInit {
   top10Names: string[] = Array(10)
   previousRanking: {[id: number] : number} = {}
   rankingFluctuation: number[] = Array(10)
+  nan = NaN
 
+  isNaN(i: number) {
+    return Number.isNaN(this.rankingFluctuation[i])
+  }
   constructor(
     private covidApiService: CovidApiService,
   ) { }
@@ -30,7 +34,7 @@ export class RankingComponent implements OnInit {
     return false
   }
   ngOnInit() {
-    this.todayReports = this.sortDataByPositive(this.todayReports.filter((report) => report.positive != 0))
+    this.todayReports = this.filterAndSortByPositive(this.todayReports.filter((report) => report.positive != 0))
     this.top10 = this.todayReports.slice(0, 10)
     this.top10.forEach((report, index) => {
       this.covidApiService.getStateById(report.stateId.toString()).subscribe((state: any) => {
@@ -45,7 +49,7 @@ export class RankingComponent implements OnInit {
       yesterday.getMonth(),
       yesterday.getDate(),
     ).subscribe((data: any) => {
-      data = this.sortDataByPositive(data, (x) => x['positive'])
+      data = this.filterAndSortByPositive(data, (x) => x['positive'])
       data.forEach((report: any, index: number) => {
         if(this.isInTop10(report)) {
           this.previousRanking[report['state_id']] = index + 1
@@ -55,11 +59,13 @@ export class RankingComponent implements OnInit {
       this.top10.forEach((report, index) => {
         this.rankingFluctuation[index] = this.previousRanking[report.stateId] - (index + 1)
       })
+
     })
 
   }
 
-  sortDataByPositive(data :any[], accessor = (x: any) => x.positive) {
+  filterAndSortByPositive(data :any[], accessor = (x: any) => x.positive) {
+    data = data.filter((report) => accessor(report) != 0)
     return data.sort((a: Report, b: Report): number => {
       var d1 = accessor(a), d2 = accessor(b)
       if(d1 === undefined) return -1
@@ -68,6 +74,6 @@ export class RankingComponent implements OnInit {
     }).reverse()
   }
   ngOnChanges(changes: SimpleChanges) {
-    this.todayReports = this.sortDataByPositive(this.todayReports.filter((report) => report.positive != 0))
+    this.todayReports = this.filterAndSortByPositive(this.todayReports)
   }
 }

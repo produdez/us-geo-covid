@@ -21,7 +21,7 @@ export class UsStatesGeometryService {
   
   private initializeGeometryData() {
     this.covidApiService.getGeometryData().subscribe((data) => {
-      this._statesGeometry.next(data.sort((featureA, featureB) => {
+      this._statesGeometry.next(data.sort((featureA: { [x: string]: number }, featureB: { [x: string]: number }) => {
         // Sort to make sure everything is in the same order
         return featureA['state_id'] < featureB['state_id'] ? -1 : 1
       }))

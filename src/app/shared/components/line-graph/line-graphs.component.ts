@@ -11,6 +11,7 @@ import { Line } from 'd3'
   styleUrls: ['./line-graphs.component.sass']
 })
 export class LineGraphComponent implements OnInit{
+  @HostBinding('class.fit-height')
   @ViewChild('chart') private chartContainer: ElementRef | undefined;
   @Input() @RequiredProperty graphId!: string
   graphHTMLId = ''
@@ -90,6 +91,8 @@ export class LineGraphComponent implements OnInit{
       var d3Element = (this.chartContainer as ElementRef).nativeElement;
       var svg = d3.select(d3Element).select('#d3-graph')
         .attr("viewBox", "0 0 " + width + " " + height )
+        .attr("minHeight", '0')
+        .style("height", "100%")
         .attr("preserveAspectRatio", "xMinYMin")
       return svg
     }
@@ -108,7 +111,7 @@ export class LineGraphComponent implements OnInit{
       const lines = svg.selectAll("lines")
         .data(data)
         .enter()
-        .append("g");
+        .append("g")
       
       lines.append("path")
         .attr("class", ids)

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { mergeMap, retry } from 'rxjs/operators'
+import { delay, mergeMap, retry, tap } from 'rxjs/operators'
 import { from, concat, Observable, toArray} from 'rxjs'
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
+  debug: boolean = false
 
   constructor(private http: HttpClient) { }
 
@@ -16,12 +17,17 @@ export class HttpService {
   }
 
   get(url: string): Observable<{[k: string]: any}>{
-    return this.http.get<{[k: string]: any}>(url, this.httpOptions)
-  }
-
-  getAllPages(url: string) {
-    return this.recursiveGetAllPages(url).pipe(
-      toArray(),
+    if(this.debug) console.time(`GET: ${url}`)
+    return this.http.get<{[k: string]: any}>(url, this.httpOptions).pipe(
+        tap((res: any) => { if(this.debug) console.timeEnd(`GET: ${url}`)})
+      )
+    }
+    
+    getAllPages(url: string) {
+      if(this.debug) console.time(`GET ALL PAGES: ${url}`)
+      return this.recursiveGetAllPages(url).pipe(
+        toArray(),
+        tap((res: any) => { if(this.debug) console.timeEnd(`GET ALL PAGES: ${url}`)})
     )
   }
 

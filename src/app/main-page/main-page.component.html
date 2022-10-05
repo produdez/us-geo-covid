@@ -21,6 +21,7 @@
     <div>
         <div class="mb-3">
             <app-date-slider 
+                [loading]="!loadedTodayReports"
                 [startDate]="startDate | cast" 
                 [sliderRange]="dateRange | cast"
                 (selectedEvent)="updateDate($event)"

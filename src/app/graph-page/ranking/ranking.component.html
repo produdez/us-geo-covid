@@ -1,6 +1,16 @@
 <div>
     <div>
-        <h3 class="text-green-300"> Top Covid-ed States: </h3>
+        <div class="flex justify-center">
+            <h3 class="text-green-300"> Top Covid-ed States</h3>
+            <div class="justify-self-start ml-1">
+                <img
+                [tippy]="rankingTooltip" [maxWidth]="'none'"
+                src="assets/info.png" 
+                alt="info" 
+                class="avatar rounded-full aspect-square h-3 shadow-sm shadow-white flex-grow-0"
+                >
+            </div>
+        </div>
         <div class="w-full h-full">
             <ul *ngFor="let report of top10; index as i">
                 <li class="flex justify-start h-1/5">
@@ -12,11 +22,16 @@
                         </div>
                         
                         <div class="flex justify-items-end">
-                            <div *ngIf="rankingFluctuation[i] != 0;then ranking"></div>
-                            <div *ngIf="rankingFluctuation[i] > 0;then upArrow else downOrDot"></div>
-                            
+                            <div *ngIf="!isNaN(i) && rankingFluctuation[i] != 0;then ranking"></div>
+                            <div class="ml-1">
+                                <div *ngIf="isNaN(i); then plus else upOrOthers"></div>
+                            </div>
+        
                             <ng-template #ranking>
                                 <p> {{rankingFluctuation[i]}}</p>
+                            </ng-template>
+                            <ng-template #upOrOthers>
+                                <div *ngIf="rankingFluctuation[i] > 0;then upArrow else downOrDot"></div>
                             </ng-template>
                             <ng-template #downOrDot>
                                 <div *ngIf="rankingFluctuation[i] < 0;then downArrow else dot"></div>
@@ -32,7 +47,16 @@
 </div>
 
 
-
+<ng-template #plus>
+    <div class="flex justify-center">
+        <div class="flex flex-col justify-center pt-1">
+            <p class="text-gray-600 description-mini text-center"> New </p> 
+        </div>
+        <div class="ml-1">
+            <svg class="w-6 h-6 stroke-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+    </div>
+</ng-template>
 
 <ng-template #upArrow>
     <svg class="w-6 h-6 stroke-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"></path></svg>
@@ -44,4 +68,26 @@
 
 <ng-template #dot>
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+</ng-template>
+
+
+<ng-template #rankingTooltip>
+    <div>
+        <div class="flex">
+            <svg class="w-6 h-6 stroke-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p>: Newly infected state</p>
+        </div>
+        <div class="flex">
+            <svg class="w-6 h-6 stroke-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"></path></svg>
+            <p>: Increased in rank compared to yesterday's ranking</p>
+        </div>
+        <div class="flex">
+            <svg class="w-6 h-6 stroke-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"></path></svg>
+            <p>: Decreased in rank compared to yesterday's ranking</p>
+        </div>
+        <div class="flex">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p>: Ranking Unchanged since yesterday</p>
+        </div>
+    </div>
 </ng-template>

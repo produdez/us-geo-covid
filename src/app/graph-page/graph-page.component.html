@@ -1,7 +1,12 @@
 <div class="h-full flex flex-col">
     <div class="flex justify-center">
         <h1 class="text-center mb-5"> General Graphs </h1>
-        <img class="h-3" src="assets/tailwind-mark.svg">
+        <img
+            [tippy]="'General information about today\'s Covid situation'"  
+            src="assets/tailwind-mark.svg" 
+            alt="info" 
+            class="ml-2 avatar rounded-full aspect-square h-6 flex-grow-0"
+        >
     </div>
     <div class="grid grid-cols-2 grid-rows-2 items-stretch w-full gap-5 grow p-5">
         <div class="text-center flex flex-col justify-center bg-gray-800 rounded-lg">
@@ -22,18 +27,18 @@
                 ></app-current-stats>
             </ng-template>
         </div>
-        <div class="text-center flex flex-col justify-center bg-gray-800 rounded-lg">
-            <div *ngIf="loadedGlobalReports && loadedDate(); then lineGraph else loadingBlock"></div>
+        <div class="text-center flex flex-col bg-gray-800 rounded-lg">
+            <div class="justify-self-start mt-3 ml-3 h-1/6">
+                <img
+                [tippy]="lineGraphTooltip"  
+                src="assets/info.png" 
+                alt="info" 
+                class="ml-2 avatar rounded-full aspect-square h-6 shadow-sm shadow-white flex-grow-0"
+                >
+            </div>
+            <div *ngIf="loadedGlobalReports && loadedDate(); then lineGraphWrapper else loadingBlock"></div>
             <ng-template #lineGraph>
-                <div class="justify-self-start mt-3 ml-3">
-                    <img
-                    [tippy]="lineGraphTooltip" variation="popper" 
-                    src="assets/info.png" 
-                    alt="info" 
-                    class="ml-2 avatar rounded-full aspect-square h-6 shadow-sm shadow-white flex-grow-0"
-                    >
-                </div>
-                <div class="my-auto w-full h-5/6 flex flex-col">
+                <div class="h-full w-full flex flex-col justify-center">
                     <app-line-graphs
                         [data]="globalReports"
                         [columns]="['positive', 'negative']"
@@ -41,6 +46,13 @@
                         [graphId]="'general-detail'"
                     ></app-line-graphs>
                 </div>
+            </ng-template>
+            
+            <ng-template #lineGraphWrapper>
+                    <ng-container #dialogVCR></ng-container>
+                    <div (click)="openDialogWithVCR(lineGraph)">
+                        <div *ngIf="true; then lineGraph"></div>
+                    </div>
             </ng-template>
         </div>
         <div class="text-center flex flex-col justify-center bg-gray-800 rounded-lg">

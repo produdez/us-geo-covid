@@ -1,6 +1,5 @@
 import { Control, Map, DomUtil } from 'leaflet'
 export class CustomLeafletControl extends Control {
-    // TODO: there are reports with no state, fix this!!
     constructor(props?: any) {
         super(props)
     }
