@@ -7,7 +7,7 @@
         <h2 class="text-center"> Details !! </h2>
         <app-details [state]="state | cast" [reports]="this.reports"></app-details>
         <div class="justify-center component-border-box w-full h-full">
-            <app-line-graphs [columns]="columns" [graphName]="graphName()" [data]="this.reports" [graphId]="'state-detail'"></app-line-graphs>
+            <app-line-graphs [columns]="columns" [graphName]="graphName()" [data]="this.reports"></app-line-graphs>
         </div>
     </div>
 </ng-template>

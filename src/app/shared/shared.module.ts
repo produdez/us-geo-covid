@@ -17,6 +17,7 @@ import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopp
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { DetailPageDialogComponent } from './components/dialogs/detail-page-dialog/detail-page-dialog.component';
 import { DetailedPageComponent } from './components/wrappable/detailed-page/detailed-page.component'
+import { GraphIdService } from './services/graph-id.service'
 
 
 @NgModule({
@@ -61,6 +62,8 @@ import { DetailedPageComponent } from './components/wrappable/detailed-page/deta
     HttpService,
     SharedDataService,
     UsStatesGeometryService,
+    GraphIdService,
+
   ]
 })
 export class SharedModule { }
