@@ -1,0 +1,100 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: [
+                    '"Inter"', 'sans-serif'
+                    ],
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        a {
+          @apply hover:text-white hover:underline {} }
+        
+        html, body {
+          @apply text-base text-gray-300 {}  min-height: 100vh;
+          height: 100vh;
+          margin: 0 auto; }
+        
+        h1 {
+          @apply font-bold text-4xl {} }
+        
+        h2 {
+          @apply font-extrabold text-3xl {} }
+        
+        h3 {
+          @apply font-bold text-2xl {} }
+        
+        h4 {
+          @apply font-semibold text-2xl {} }
+        
+        h5 {
+          @apply font-bold text-xl {} }
+        
+        h6 {
+          @apply font-semibold text-lg {} }
+        
+        button {
+          @apply rounded-full bg-green-200 text-gray-900 px-5 text-lg font-bold {} }
+          button .mini {
+            @apply text-base font-semibold {} }
+        
+        button:hover {
+          @apply bg-gray-300 text-gray-900 {} }
+        
+        .fit-height {
+          height: 100%; }
+        
+        @layer components {
+          /* For visuals */
+          .graph-backdrop {
+            @apply border-2 border-red-800 p-5 bg-gray-900;
+          }
+
+          .graph-wrapper {
+            @apply p-5 bg-gray-800 rounded-lg
+          }
+
+          /* For visuals */
+          .bold {
+            @apply font-semibold {} }
+          .subtitle {
+            @apply font-medium text-lg {} }
+            .subtitle .bold {
+              @apply font-semibold {} }
+          .description {
+            @apply text-sm font-normal {} }
+          .description-mini {
+            @apply text-xs font-normal {} }
+          .padding-box {
+            @apply p-5 {} }
+          .component-border-box {
+            @apply border-2 border-green-300 block m-1 {} }
+          .p-self-center {
+            @apply self-center pl-1 {} }
+          .frozen-slider {
+            @apply opacity-30 {} } }
+        
+        div data-tippy-root {
+          max-width: 800px; }
+        
+        div * {
+          @apply min-h-0 {} }
+
+        .div-svg {
+          width: 100px;
+          height: 100px;
+        }
+        ngneat-dialog .ngneat-dialog-backdrop {
+          @apply bg-slate-400 inline-flex {}  --tw-bg-opacity: 80%; }
+          ngneat-dialog .ngneat-dialog-backdrop .ngneat-dialog-content {
+            @apply bg-gray-900 text-base text-gray-300 rounded-xl p-5 inline-flex {} }
+        
+    </style>
+</head>

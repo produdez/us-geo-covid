@@ -6,4 +6,5 @@
         "kwargs"
     ],
     "files.eol": "\n",
+    "css.lint.unknownAtRules": "ignore",
 }
