@@ -8,7 +8,7 @@ define('line_graph', ['d3'], function(d3) {
     function draw(container, data) {
         // * Globals
         const DEBUG = true
-        var clicked = false
+        var clickedForMoreInfo = false
 
         function log(...args) {
             if(DEBUG) return console.info(args)
@@ -144,7 +144,7 @@ define('line_graph', ['d3'], function(d3) {
                     .attr("stroke-dashoffset", 0);
         }
 
-        function drawTitle(width, height, svg, wrapper) {
+        function drawTitle(width, height, svg) {
             const titleWrapper = svg.append('g').attr('class', 'title-wrapper')
             const title = titleWrapper.append("text")
                 .attr("x", width/2)
@@ -315,7 +315,7 @@ define('line_graph', ['d3'], function(d3) {
                     .style("opacity", "1");
                 d3.selectAll(".circle-indicator-per-line circle")
                     .style("opacity", "1");
-                if(!clicked) {
+                if(!clickedForMoreInfo) {
                     d3.selectAll(".circle-indicator-per-line text")
                         .style("opacity", "1");
                 }
@@ -393,8 +393,8 @@ define('line_graph', ['d3'], function(d3) {
             const extraDetailIndicators = d3.selectAll('.extra-detail-indicator')
             const textHoverIndicator = d3.selectAll('.circle-indicator-per-line text')
             function showMoreDetails() { // mouse clicked on canvas
-                clicked = !clicked
-                if(clicked) {
+                clickedForMoreInfo = !clickedForMoreInfo
+                if(clickedForMoreInfo) {
                     legendBox.transition()
                         .attr('width', bigLegendBoxWidth)
                     extraDetailIndicators.transition().style('opacity', 1)
@@ -431,7 +431,7 @@ define('line_graph', ['d3'], function(d3) {
         drawLines(data)
     
         log('draw title')
-        drawTitle(width, height, svg, wrapper)
+        drawTitle(width, height, svg)
         
         log('draw legend')
         const [legends, legendStartX, legendStartY, legendBoxWidth, legendGap] = drawLegend(columns, svg)
