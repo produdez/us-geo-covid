@@ -53,7 +53,7 @@ export class LineGraphComponent implements AfterViewInit {
     const colors =  ['#00876c', '#81b788', '#d7e6b4', '#f5dea4', '#eebb7d', '#e99562', '#e16c53', '#d43d51',]
     var colorsDict = {} as {[key: string]: any}
     this.columns.forEach((column, index) => {
-        colorsDict[column] = colors[index*2] // TODO: fix this and add better contrast colors
+        colorsDict[column] = colors[index*2] // todo: sync color with summary cell's color 
     })
     const color = (column: string) => colorsDict[column]
     return {
@@ -220,8 +220,8 @@ export class LineGraphComponent implements AfterViewInit {
           .attr("x", width/2)
           .attr("y", 30)
           .attr("text-anchor", "middle")
-          .attr('class', 'graph-title fill-white bold text-3xl')
-          .text('Covid 19 in USA')
+          .attr('class', 'graph-title fill-white bold text-xl')
+          .text(this.graphName)
           .attr('opacity', 0)
           .transition().duration(1000)
           .attr('opacity', 1)
@@ -244,7 +244,6 @@ export class LineGraphComponent implements AfterViewInit {
           const hoverRect = iconWrapper.append('rect')
               .attr('class', 'info-icon-wrapper fill-transparent w-full h-full')
   
-          // TODO: fix the wrapper holding the tooltip
           const svgWrapper = d3.select(this.appendId('.line-graph-wrapper'))
           // ! tooltip
           var tooltip = svgWrapper.append("div")
@@ -462,6 +461,7 @@ export class LineGraphComponent implements AfterViewInit {
   
   const addMouseClickShowMoreDetailEvents = (
       interactiveRectangle: any, originalLegendBoxWidth: number)  => {
+      if(this.simplified) return  
       const legendBox = d3.select(this.appendId('.legend-box-rectangle'))
       const bigLegendBoxWidth = originalLegendBoxWidth * 2 - 40
       const extraDetailIndicators = d3.selectAll(this.appendId('.extra-detail-indicator'))

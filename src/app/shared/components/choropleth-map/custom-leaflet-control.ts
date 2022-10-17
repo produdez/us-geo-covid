@@ -15,8 +15,8 @@ export class CustomLeafletControl extends Control {
             '<h4>Covid Situation</h4>' +  
                 (
                     props ?
-                    '<b>' + name + '</b>' +
-                    '<br />' + value
+                    '<p class="text-lg">' + name + '</p>'
+                     + '<p class="text-base font-semibold">' + value + '</p>'
                     : 'Hover over a state'
                 )
     };

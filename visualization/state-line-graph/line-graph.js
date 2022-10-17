@@ -1,5 +1,3 @@
-const { svg } = require("d3")
-
 require.undef('line_graph')
 // d3 = require.config({paths: {d3: 'https://d3js.org/d3.v5.min'}})
 // import * as d3 from "d3"
@@ -20,7 +18,7 @@ define('line_graph', ['d3'], function(d3) {
             const colors =  ['#00876c', '#81b788', '#d7e6b4', '#f5dea4', '#eebb7d', '#e99562', '#e16c53', '#d43d51',]
             var colorsDict = {}
             columns.forEach((column, index) => {
-                colorsDict[column] = colors[index*2] // TODO: fix this and add better contrast colors
+                colorsDict[column] = colors[index*2]
             })
             const color = (column) => colorsDict[column]
 

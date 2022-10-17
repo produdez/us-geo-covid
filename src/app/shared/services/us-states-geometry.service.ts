@@ -56,6 +56,10 @@ export class UsStatesGeometryService {
   }
 
   private _joinReportData(reports: Report[]) {
+    // ! Lazy implementation of just clearing data
+    this._geoJson['features'].forEach((_: any, index: number) => {
+      this._geoJson['features'][index]['properties']['report'] = undefined
+    })
     if(reports.length < this._geoJson['features'].length){
       reports.forEach((report) => {
         for (let [index, geoData] of this._geoJson['features'].entries()) {

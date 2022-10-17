@@ -52,7 +52,6 @@ export class DetailedPageComponent implements OnChanges, OnInit {
       },
       error: (error: any) => {
         this.failAndAlert(error, `Fail to get state "${stateIdentifier}"`)
-        // TODO: add a message to frontend to display fail to user
       }
     })
   }

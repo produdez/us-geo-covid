@@ -16,7 +16,7 @@ import { DetailPageDialogComponent } from '../dialogs/detail-page-dialog/detail-
   // encapsulation: ViewEncapsulation.None // ! NOTE VERY IMPORTANT
 })
 export class ChoroplethMapComponent implements OnInit {
-  // TODO: 1.5: modulate the map code currently messy (if needed to then change later)
+  // Later: 1.5: modulate the map code currently messy (if needed to then change later)
   constructor (
     private style: MapStylingService,
     private usStatesGeometryService: UsStatesGeometryService,
@@ -56,7 +56,6 @@ export class ChoroplethMapComponent implements OnInit {
   }
 
   ngOnInit() {
-    // TODO: fix when moving back in time it does wrong thing!!!
     this.usStatesGeometryService.statesGeometry.subscribe(data => {
       if(data.length > 0) {
         this.geometryData = this.usStatesGeometryService.constructGeoJSON()

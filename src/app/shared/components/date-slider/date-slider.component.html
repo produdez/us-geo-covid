@@ -28,7 +28,7 @@
                 type="range" 
                 min="{{startValue}}" max="{{endValue}}"
                 [ngModel]="selectedValue" 
-                (ngModelChange)="setValue($event)" 
+                (ngModelChange)="setValue($event)"
             >
             <div class="flex justify-end">
                 <div (click)="setValue(this.selectedValue + 1)">
@@ -53,4 +53,5 @@
     <h6>Tips!</h6>
     <p>{{sliderTooltip}}</p>
     <p class="description">{{sliderTooltip1}}</p>
+    <p class="description">{{sliderTooltip2}}</p>
 </ng-template>

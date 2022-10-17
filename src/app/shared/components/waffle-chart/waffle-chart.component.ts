@@ -2,6 +2,8 @@ import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, HostBinding
 import * as d3 from "d3"
 import { filter } from 'd3';
 import { RequiredProperty } from '../../decorators/requiredProperty';
+import { formatDate } from '../../helpers/common';
+import { CustomDate } from '../../models/customDate';
 import { GlobalReport, Report } from '../../models/report';
 import { State } from '../../models/state';
 import { CovidApiService } from '../../services/covid-api.service';
@@ -37,6 +39,7 @@ interface NonIncludedData {
     othersPercentageRaw: number
 }
 // TODO: add column switching
+// TODO: add date to the report
 @Component({
   selector: 'app-waffle-chart',
   templateUrl: './waffle-chart.component.html',
@@ -48,6 +51,7 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
   private chartWrapperRef!: ElementRef
 
   graphId!: string 
+  @Input() @RequiredProperty date!: CustomDate
   @Input() @RequiredProperty todayData!: Report[]
   @Input() @RequiredProperty graphName!: string
   @Input() simplified = true
@@ -87,7 +91,7 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
 
   ngOnInit() {
     this.sharedDataService.allStates.subscribe((states: State[]) => {
-      this.states = states
+      this.states = states.sort((a, b) => a.id < b.id ? -1 : 1)
     })
   }
 
@@ -195,18 +199,32 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
   }
 
   parseData() {
-    //   TODO: handle case where report count is less than states count!
     const sort = (arr: any[], accessor: (x: any) => any) => arr.sort((a,b) => accessor(a) < accessor(b) ? -1 : 1)
     const column = this.column
     const accessor = (r: Report) => r.positive
     const totalPositive = this.todayData.reduce((a,b) => a + b.json[column], 0)
     var acc = 0
-    const data =  d3
-    .zip(
-        sort(filter(this.todayData, 
-            (r: Report) => accessor(r) != null && accessor(r) > 0), (x) => x.state_id
-        ), 
-        sort(this.states, (x) => x.id))
+
+    this.todayData = filter(this.todayData, (r: Report) => accessor(r) != null && accessor(r) > 0)
+    this.todayData = sort(this.todayData, (r: Report) => r.stateId)
+    var zippedData
+    if(this.todayData.length < this.states.length) {
+        var searchIndex = 0
+        zippedData = this.todayData.map((report: Report) => {
+            while(searchIndex < this.states.length) {
+                const state = this.states[searchIndex]
+                if(report.stateId === state.id) return [report, state]
+                searchIndex ++
+            }
+            throw new Error(`Report with state id: ${report.stateId} not found in state list`)
+        })
+    } else {
+        zippedData =  d3.zip<any>(
+            this.todayData, 
+            this.states
+        )
+    }
+    const data = zippedData
         .map(([report, state]) => {
                 return {
                     'initials': state.initials,
@@ -311,10 +329,11 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
                     accumulatedCellPercentage <=  accumulatedGroupPercentage
                     && groupData[groupIndex].percentage >= cellPercentage
                 ) {
+
                     cell = {x: x, y: y, groupIndex: groupIndex}
                 }else if (
-                    groupIndex + 1 < groupData.length - 1 // not last
-                    && accumulatedGroupPercentage + groupData[groupIndex + 1].percentage >= accumulatedCellPercentage
+                    accumulatedGroupPercentage + groupData[groupIndex + 1].percentage 
+                    >= accumulatedCellPercentage
                 ){
                     groupIndex += 1
                     accumulatedGroupPercentage += groupData[groupIndex].percentage
@@ -628,13 +647,19 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
                 })
                 .on("mouseout",  () => tooltipDisableBorder.style("visibility", "hidden"));
         }
-        function addTitle() {
+        const addTitle = () => {
             const title = titleWrapper.append("text")
                 .attr("x", width/2)
                 .attr("y", 30)
                 .attr("text-anchor", "middle")
-                .attr('class', 'graph-title fill-white bold text-lg')
-                .text('Covid 19 in USA')
+                .attr('class', 'graph-title fill-white bold text-md')
+                .text(this.graphName)
+            titleWrapper.append("text")
+                .attr("x", width/2)
+                .attr("y", 30 + 15)
+                .attr("text-anchor", "middle")
+                .attr('class', 'description-mini fill-gray-200')
+                .text(formatDate(this.date))
             return title
         }
         const addInfoHover = (title: any) => {

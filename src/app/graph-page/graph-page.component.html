@@ -48,7 +48,7 @@
                         <app-line-graphs
                             [data]="globalReports"
                             [columns]="['positive', 'negative']"
-                            [graphName]="'Whole US current State'"
+                            [graphName]="'Summary US Situation'"
                         ></app-line-graphs>
                     </div>
                 </div>
@@ -60,11 +60,12 @@
                 <ng-container #dialogVCR></ng-container>
                 <div class="h-5/6 w-full self-center" 
                     (click)="openDialogWithVCR(
-                        waffleChartDialog, {todayData: todayReports})"
+                        waffleChartDialog, {todayData: todayReports, date: currentDate})"
                 >
                     <app-waffle-chart
                     [todayData]="todayReports"
-                    [graphName]="'Whole US current State'"
+                    [graphName]="'Covid distribution'"
+                    [date]="currentDate | cast"
                     ></app-waffle-chart>                    
                 </div>
             </ng-template>
