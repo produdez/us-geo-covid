@@ -4,7 +4,6 @@ import { State } from 'src/app/shared/models/state'
 import * as d3 from "d3"
 import { RequiredProperty } from 'src/app/shared/decorators/requiredProperty'
 import { CustomDate } from '../../models/customDate'
-import { Line } from 'd3'
 import { GraphIdService } from '../../services/graph-id.service'
 
 interface DataPoint {
@@ -20,6 +19,7 @@ interface SubData {
   templateUrl: './line-graphs.component.html',
   styleUrls: ['./line-graphs.component.sass']
 })
+// TODO: add dialog to select columns
 export class LineGraphComponent implements AfterViewInit {
   @HostBinding('class.fit-height')
   @ViewChild('chart')
@@ -37,11 +37,13 @@ export class LineGraphComponent implements AfterViewInit {
   svgId!: string
   width!: number
   height!: number
+  @Input() simplified = true
 
   constructor(elementRef: ElementRef, graphIdService: GraphIdService) {
+    console.log('linegraph cons activated')
     this.chartContainerRef = elementRef
     this.graphId = graphIdService.getId()
-    this.svgId = 'd3-graph' + this.graphId
+    this.svgId = 'line-graph-' + this.graphId
     this.graphWrapperClass = this.appendId('line-graph-wrapper')+'h-full w-full px-5 flex-grow my-auto flex justify-center'
   }
 
@@ -90,12 +92,14 @@ export class LineGraphComponent implements AfterViewInit {
     this.height = this.chartWrapperRef.nativeElement.offsetHeight
   }
   ngAfterViewChecked() {
-    // ! The div of this component will be resized so we wait until it's updated to draw the graph
     const newHeight = this.chartWrapperRef.nativeElement.offsetHeight,
-      newWidth = this.chartWrapperRef.nativeElement.offsetWidth
-    if(newHeight !== this.height || newWidth !== this.width) {
+    newWidth = this.chartWrapperRef.nativeElement.offsetWidth,
+    heightDiff = newHeight - this.height,
+    widthDiff = newWidth - this.width
+    if(heightDiff > (0.3 * this.height) || widthDiff > (0.3 * this.width)) {
       this.width = newWidth
       this.height = newHeight
+
       this.drawGraph()
     }
   }
@@ -199,7 +203,6 @@ export class LineGraphComponent implements AfterViewInit {
             .style("stroke-width", 2)
           
             var pathArray = (paths as any)._groups[0]
-            console.log('PA: ',pathArray)
             var totalLength = (i: number) => pathArray[i].getTotalLength();
 
         paths
@@ -223,6 +226,7 @@ export class LineGraphComponent implements AfterViewInit {
           .transition().duration(1000)
           .attr('opacity', 1)
       
+      if(this.simplified) return
       d3.xml("/assets/info.svg")
         .catch(err => console.log('parsing info.svg error: ', err))
         .then((data) => {
@@ -253,15 +257,15 @@ export class LineGraphComponent implements AfterViewInit {
               .style("padding", "10px")
               .style("background-color", "#475569")
               .html(' \
-                      <p>Click on the graph for better details!</p> \
+                      <p>Click on the graphs for better details!</p> \
               ')
   
           hoverRect
               .on('mouseover', () => tooltip.style('visibility', 'visible'))
-              .on("mousemove", function(){
+              .on("mousemove", (event) => {
                   return tooltip
-                    .style("left",(d3.pointer(this)[0] + 400) +"px")
-                    .style("top", (d3.pointer(this)[1] - 10) +"px")
+                    .style("left",d3.pointer(event)[0] + 300 +"px")
+                    .style("top", d3.pointer(event)[1] + 50 +"px")
                   })
               .on("mouseout",  () => tooltip.style("visibility", "hidden"));
   
@@ -363,7 +367,6 @@ export class LineGraphComponent implements AfterViewInit {
   }
   const addMouseHoverShowsIndicatorEvents = (interactiveRectangle: any, height: number, scaleX: any, scaleY: any) => {
       const graphLines = document.getElementsByClassName(this.appendId('line')) as HTMLCollectionOf<SVGPathElement>
-      const numberFormatter = new Intl.NumberFormat('en-IN', ) // {roundingMode: 'ceil', roundingIncrement: 1, notation: 'engineering'}
       const yValueHolder = new Array(graphLines.length)
   
       const hideIndicators = (_: any) => { // on mouse out hide line, circles and text
@@ -424,8 +427,8 @@ export class LineGraphComponent implements AfterViewInit {
   
                   // update the text with y value
                   const textIndicator = d3.select(this).select('text')
-                  textIndicator.text(numberFormatter.format(scaleY.invert(pos.y)));
-                  yValueHolder[i] = numberFormatter.format(scaleY.invert(pos.y))
+                  textIndicator.text(scaleY.invert(pos.y).toExponential(3));
+                  yValueHolder[i] = scaleY.invert(pos.y).toExponential(3)
                   // return position
                   return "translate(" + mouseX + "," + pos.y +")";
               })

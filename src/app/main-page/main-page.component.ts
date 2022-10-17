@@ -3,6 +3,7 @@ import { DialogRef, DialogService } from '@ngneat/dialog';
 import { DetailPageDialogComponent } from '../shared/components/dialogs/detail-page-dialog/detail-page-dialog.component';
 import { CustomDate } from '../shared/models/customDate';
 import { GlobalReport, Report } from '../shared/models/report';
+import { State } from '../shared/models/state';
 import { CovidApiService } from '../shared/services/covid-api.service';
 import { SharedDataService } from '../shared/services/shared-data.service';
 @Component({
@@ -57,6 +58,9 @@ export class MainPageComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    this.covidApiService.getAllStates().subscribe((states: {[k: string] : any}[]) => {
+      this.sharedDataService.updateAllStates(states.map((state) => State.fromJSON<State>(state)))
+    })
     this.covidApiService.getGlobalReport().subscribe(reports =>{
       for(let reportJson of reports) {
         this.globalReports.push(GlobalReport.fromJSON(reportJson))

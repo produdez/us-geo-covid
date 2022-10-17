@@ -1,0 +1,16 @@
+
+<div class="w-full h-full flex flex-col justify-center pl-3 pr-6">
+    <div class="w-full h-[95%]"  #wrapper>
+        <div *ngIf="noGraph; then emptyTemplate else graphTemplate"></div>
+    </div>
+</div>
+
+
+<ng-template #graphTemplate>
+</ng-template>
+
+<ng-template #emptyTemplate>
+    <div class="grid h-full place-items-center">
+        <h5> No Data to graph </h5>
+    </div>
+</ng-template>

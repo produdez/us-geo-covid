@@ -14,10 +14,12 @@ import { UsStatesGeometryService } from './services/us-states-geometry.service';
 import { DateSliderComponent } from './components/date-slider/date-slider.component'
 import { FormsModule } from '@angular/forms'
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
-import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { WaffleChartComponent } from './components/waffle-chart/waffle-chart.component';
 import { DetailPageDialogComponent } from './components/dialogs/detail-page-dialog/detail-page-dialog.component';
 import { DetailedPageComponent } from './components/wrappable/detailed-page/detailed-page.component'
-import { GraphIdService } from './services/graph-id.service'
+import { GraphIdService } from './services/graph-id.service';
+import { WaffleChartDialogComponent } from './components/dialogs/waffle-chart-dialog/waffle-chart-dialog.component';
+import { LineGraphDialogComponent } from './components/dialogs/line-graph-dialog/line-graph-dialog.component'
 
 
 @NgModule({
@@ -29,9 +31,11 @@ import { GraphIdService } from './services/graph-id.service'
     LineGraphComponent,
     ChoroplethMapComponent,
     DateSliderComponent,
-    PieChartComponent,
+    WaffleChartComponent,
     DetailPageDialogComponent,
-    DetailedPageComponent
+    DetailedPageComponent,
+    WaffleChartDialogComponent,
+    LineGraphDialogComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +57,7 @@ import { GraphIdService } from './services/graph-id.service'
     LineGraphComponent,
     ChoroplethMapComponent,
     DateSliderComponent,
-    PieChartComponent,
+    WaffleChartComponent,
     DetailPageDialogComponent,
     DetailedPageComponent
   ],
@@ -63,7 +67,6 @@ import { GraphIdService } from './services/graph-id.service'
     SharedDataService,
     UsStatesGeometryService,
     GraphIdService,
-
   ]
 })
 export class SharedModule { }

@@ -1,6 +1,8 @@
 import { Component, HostBinding, Input, OnInit, TemplateRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { DialogConfig, DialogService } from '@ngneat/dialog';
+import { LineGraphDialogComponent } from '../shared/components/dialogs/line-graph-dialog/line-graph-dialog.component';
+import { WaffleChartDialogComponent } from '../shared/components/dialogs/waffle-chart-dialog/waffle-chart-dialog.component';
 import { RequiredProperty } from '../shared/decorators/requiredProperty';
 import { GlobalReport, Report } from '../shared/models/report';
 import { CovidApiService } from '../shared/services/covid-api.service';
@@ -24,6 +26,8 @@ export class GraphPageComponent implements OnInit {
   @Input() loadedGlobalReports: boolean = false
   loadedDate = () => this.currentDate != undefined
 
+  waffleChartDialog = WaffleChartDialogComponent
+  lineGraphDialog = LineGraphDialogComponent
 
   lineGraphTooltip = 'Click on the graph for a bigger popup'
   constructor(
@@ -35,11 +39,11 @@ export class GraphPageComponent implements OnInit {
     const ref = this.dialog.open(compOrTemplate, config);
     return ref
   }
-  openDialogWithVCR(compOrTemplate: Type<any> | TemplateRef<any>) {
+  openDialogWithVCR(compOrTemplate: Type<any> | TemplateRef<any>, data: {[key: string]: any}) {
     var config = {
       id: '',
       vcr: this.dialogVCR,
-      data: {}
+      data: data
     }
     return this.dialog.open(compOrTemplate, config)
   }

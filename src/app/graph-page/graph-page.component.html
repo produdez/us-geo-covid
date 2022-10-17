@@ -28,7 +28,7 @@
             </ng-template>
         </div>
         <div class="text-center flex flex-col bg-gray-800 rounded-lg">
-            <div class="justify-self-start mt-3 ml-3 h-1/6">
+            <div class="justify-self-start mt-3 ml-3 h-[10%]">
                 <img
                 [tippy]="lineGraphTooltip"  
                 src="assets/info.png" 
@@ -37,27 +37,36 @@
                 >
             </div>
             <div *ngIf="loadedGlobalReports && loadedDate(); then lineGraphWrapper else loadingBlock"></div>
-            <ng-template #lineGraph>
-                <div class="h-full w-full flex flex-col justify-center">
-                    <app-line-graphs
-                        [data]="globalReports"
-                        [columns]="['positive', 'negative']"
-                        [graphName]="'Whole US current State'"
-                    ></app-line-graphs>
-                </div>
-            </ng-template>
+
             
             <ng-template #lineGraphWrapper>
-                    <ng-container #dialogVCR></ng-container>
-                    <div class="h-5/6 w-full" (click)="openDialogWithVCR(lineGraph)">
-                        <div *ngIf="true; then lineGraph"></div>
+                <ng-container #dialogVCR></ng-container>
+                <div class="h-[90%] w-full" (click)="openDialogWithVCR(lineGraphDialog, {
+                    data: globalReports
+                })">
+                    <div class="h-full w-full flex flex-col justify-center">
+                        <app-line-graphs
+                            [data]="globalReports"
+                            [columns]="['positive', 'negative']"
+                            [graphName]="'Whole US current State'"
+                        ></app-line-graphs>
                     </div>
+                </div>
             </ng-template>
         </div>
         <div class="text-center flex flex-col justify-center bg-gray-800 rounded-lg">
-            <div *ngIf="loadedTodayReports; then pieChart else loadingBlock"></div>
-            <ng-template #pieChart>
-                <app-pie-chart></app-pie-chart>
+            <div *ngIf="loadedTodayReports; then waffleChartWrapper else loadingBlock"></div>
+            <ng-template #waffleChartWrapper>
+                <ng-container #dialogVCR></ng-container>
+                <div class="h-5/6 w-full self-center" 
+                    (click)="openDialogWithVCR(
+                        waffleChartDialog, {todayData: todayReports})"
+                >
+                    <app-waffle-chart
+                    [todayData]="todayReports"
+                    [graphName]="'Whole US current State'"
+                    ></app-waffle-chart>                    
+                </div>
             </ng-template>
         </div>
     </div>

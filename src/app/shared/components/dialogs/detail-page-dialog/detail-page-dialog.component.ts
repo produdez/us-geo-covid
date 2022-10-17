@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { DialogRef } from '@ngneat/dialog';
+import { DialogDataMissingKeyError, DialogEmptyDataError } from 'src/app/shared/errors/dialog-data.error';
 
 interface Data {
   stateIdentifier: string
@@ -13,13 +14,14 @@ interface Data {
 })
 export class DetailPageDialogComponent {
   @HostBinding('class.fit-height')
-  stateIdentifier: string = ''
+  stateIdentifier!: string
   constructor(
     public ref: DialogRef<Data, boolean>,
   ) {
-    if(!this.ref.data || !this.ref.data['stateIdentifier']) {
-      throw new Error('No data passed to component')
-    }
-    this.stateIdentifier = this.ref.data['stateIdentifier']
-   }
+    const className = DetailPageDialogComponent.name
+    if(!this.ref.data) throw new DialogEmptyDataError(className)
+    const data = this.ref.data
+    if(!data.stateIdentifier) throw new DialogDataMissingKeyError('stateIdentifier',className)
+    this.stateIdentifier = this.ref.data.stateIdentifier
+  }
 }

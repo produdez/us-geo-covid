@@ -56,6 +56,7 @@ export class ChoroplethMapComponent implements OnInit {
   }
 
   ngOnInit() {
+    // TODO: fix when moving back in time it does wrong thing!!!
     this.usStatesGeometryService.statesGeometry.subscribe(data => {
       if(data.length > 0) {
         this.geometryData = this.usStatesGeometryService.constructGeoJSON()

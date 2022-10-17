@@ -5,14 +5,14 @@ import { RequiredProperty } from '../../decorators/requiredProperty';
 import { addTime, formatDate } from '../../helpers/common';
 import { Output, EventEmitter } from '@angular/core';
 import { CustomDate } from '../../models/customDate';
+import { DialogService } from '@ngneat/dialog';
 @Component({
   selector: 'app-date-slider',
   templateUrl: './date-slider.component.html',
   styleUrls: ['./date-slider.component.sass']
 })
 export class DateSliderComponent implements OnInit, OnChanges{
-  // TODO: freeze slider when map is not finish loading
-  constructor() { }
+  constructor(private dialogService: DialogService) { }
   @Input() @RequiredProperty startDate!: Date
   @Input() @RequiredProperty sliderRange!: number
   endDate!: Date 
@@ -48,8 +48,10 @@ export class DateSliderComponent implements OnInit, OnChanges{
       this.selectedEvent.emit(this.selectedDate())
       this.lastEmitted = this.selectedValue
     }else{
-      // TODO: change this into a prompt instead of a console log
-      console.log("No value change, no update needed!")
+      this.dialogService.success({
+        title: 'Already done!',
+        body: '<p>You dint change the date, cheeky user! \n No update is needed 😉</p>'
+      });
     }
   }
   ngOnInit() {
@@ -58,7 +60,6 @@ export class DateSliderComponent implements OnInit, OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.info("changes", changes)
   }
 
   sliderTooltip = "Use the timeline slider to choose a date and confirm so that map can render the pandemic's progress at that time"
