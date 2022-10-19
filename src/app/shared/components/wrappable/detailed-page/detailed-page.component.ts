@@ -5,6 +5,7 @@ import { State } from '../../../models/state'
 import { CovidApiService } from '../../../services/covid-api.service'
 import { DialogService, DialogRef } from '@ngneat/dialog';
 import { Data } from '@angular/router'
+import { SharedDataService } from 'src/app/shared/services/shared-data.service'
 
 @Component({
   selector: 'app-detailed-page',
@@ -22,10 +23,15 @@ export class DetailedPageComponent implements OnChanges, OnInit {
   constructor(
     private covidApiService: CovidApiService,
     private ref: ChangeDetectorRef,
+    private sharedDataService: SharedDataService,
   ) {}
 
   updated() {
     return this.state !== undefined && !this.loading
+  }
+
+  updateLineGraphColumns(columns: string[]) {
+    this.sharedDataService.updateLineGraphColumns(columns)
   }
 
   ngOnChanges() {

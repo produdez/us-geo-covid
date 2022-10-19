@@ -9,8 +9,6 @@ import { State } from 'src/app/shared/models/state'
   styleUrls: ['./details.component.sass']
 })
 export class DetailsComponent {
-  @HostBinding('class.component-border-box')
-
   @Input() @RequiredProperty reports!: Report[]
   @Input() @RequiredProperty state!: State
 

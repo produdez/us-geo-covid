@@ -1,24 +1,27 @@
-import { ChangeDetectorRef, Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { RequiredProperty } from 'src/app/shared/decorators/requiredProperty';
-import { addTime } from 'src/app/shared/helpers/common';
+import { addTime, uppercaseFirstLetter } from 'src/app/shared/helpers/common';
 import { CustomDate } from 'src/app/shared/models/customDate';
 import { GlobalReport, Report } from 'src/app/shared/models/report';
 import { CovidApiService } from 'src/app/shared/services/covid-api.service';
+import { SharedDataService } from 'src/app/shared/services/shared-data.service';
 
 @Component({
   selector: 'app-ranking',
   templateUrl: './ranking.component.html',
   styleUrls: ['./ranking.component.sass']
 })
-export class RankingComponent implements OnInit {
+export class RankingComponent implements OnInit, OnChanges{
 
   @Input() @RequiredProperty todayReports!: Report[];
   @Input() @RequiredProperty todayDate!: CustomDate
+  @Input() @RequiredProperty column!: string
   top10!: Report[]
   top10Names: string[] = Array(10)
   previousRanking: {[id: number] : number} = {}
   rankingFluctuation: number[] = Array(10)
   nan = NaN
+  textFormat = uppercaseFirstLetter
 
   isNaN(i: number) {
     return Number.isNaN(this.rankingFluctuation[i])
@@ -33,8 +36,11 @@ export class RankingComponent implements OnInit {
     }
     return false
   }
+  ngONChanges(changes: SimpleChanges) {
+    console.log('ConChanges', changes)
+  }
   ngOnInit() {
-    this.todayReports = this.filterAndSortByPositive(this.todayReports.filter((report) => report.positive != 0))
+    this.todayReports = this.filterAndSortByPositive(this.todayReports.filter((report) => report.json[this.column] != 0))
     this.top10 = this.todayReports.slice(0, 10)
     this.top10.forEach((report, index) => {
       this.covidApiService.getStateById(report.stateId.toString()).subscribe((state: any) => {
@@ -49,7 +55,7 @@ export class RankingComponent implements OnInit {
       yesterday.getMonth(),
       yesterday.getDate(),
     ).subscribe((data: any) => {
-      data = this.filterAndSortByPositive(data, (x) => x['positive'])
+      data = this.filterAndSortByPositive(data, (x) => x[this.column])
       data.forEach((report: any, index: number) => {
         if(this.isInTop10(report)) {
           this.previousRanking[report['state_id']] = index + 1
@@ -64,7 +70,7 @@ export class RankingComponent implements OnInit {
 
   }
 
-  filterAndSortByPositive(data :any[], accessor = (x: any) => x.positive) {
+  filterAndSortByPositive(data :any[], accessor = (x: any) => x[this.column]) {
     data = data.filter((report) => accessor(report) != 0)
     return data.sort((a: Report, b: Report): number => {
       var d1 = accessor(a), d2 = accessor(b)

@@ -38,8 +38,6 @@ interface NonIncludedData {
     skippedStates: string[],
     othersPercentageRaw: number
 }
-// TODO: add column switching
-// TODO: add date to the report
 @Component({
   selector: 'app-waffle-chart',
   templateUrl: './waffle-chart.component.html',
@@ -57,12 +55,10 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
   @Input() simplified = true
   NO_CELL_BORDER = !true
 
-  // @Input() @RequiredProperty columns!: string[]
-  columns = ['positive']
   clickedForMoreInfo = false
   states!: State[]
   
-  column: string
+  column!: string
   graphWrapperClass!: string
   svgId!: string
   width!: number
@@ -73,7 +69,8 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
 
   constructor(private ref: ChangeDetectorRef,graphIdService: GraphIdService, private sharedDataService: SharedDataService) {
     this.firstInvalidGroupIndex = 1
-    this.column = this.columns[0]
+    // this.column = this.columns[0]
+
     // this.chartContainerRef = elementRef
     this.graphId = graphIdService.getId()
     this.svgId = 'waffle-graph-' + this.graphId
@@ -89,7 +86,18 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
     this.height = this.chartWrapperRef.nativeElement.offsetHeight
   } 
 
+  valid() {
+    if(!this.states || !this.todayData) return false
+    return this.states.length > 0 && this.todayData.length > 0 && this.column != undefined
+  }
+
   ngOnInit() {
+    this.sharedDataService.waffleColumn.subscribe((column: string) => {
+        if(this.column == column) return
+        this.column = column
+        console.log('Column: ', this.column)
+        if(this.valid()) this.drawGraph()
+    })
     this.sharedDataService.allStates.subscribe((states: State[]) => {
       this.states = states.sort((a, b) => a.id < b.id ? -1 : 1)
     })
@@ -201,12 +209,13 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
   parseData() {
     const sort = (arr: any[], accessor: (x: any) => any) => arr.sort((a,b) => accessor(a) < accessor(b) ? -1 : 1)
     const column = this.column
-    const accessor = (r: Report) => r.positive
+    const accessor = (r: Report) => r.json[column]
     const totalPositive = this.todayData.reduce((a,b) => a + b.json[column], 0)
     var acc = 0
 
     this.todayData = filter(this.todayData, (r: Report) => accessor(r) != null && accessor(r) > 0)
     this.todayData = sort(this.todayData, (r: Report) => r.stateId)
+    console.log('Today data after sort: ', this.todayData)
     var zippedData
     if(this.todayData.length < this.states.length) {
         var searchIndex = 0
@@ -712,7 +721,7 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
         
     }
 
-    console.log('Graph? ', !this.noGraph)
+    console.log('Today: ', this.todayData)
     if(this.noGraph) return
     
     const data: GroupInfo[] = this.parseData()
@@ -729,7 +738,6 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
     const container = this.chartWrapperRef.nativeElement
     // const initialData = this.todayData
     var {width, height, wrapper, color} = this.setupBasics(container)
-    console.log('WH: ', this.width, this.height)
 
     const waffleConfig = this.makeWaffleLayoutConfig(width, height)
 
@@ -737,7 +745,6 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
     const {waffleWrapper, legendWrapper, titleWrapper, titleWrapperHeight} = makeWrappers(wrapper, waffleConfig, height, sideWrapperWidth)
     const svgWaffle = drawSVG(0, 0 ,waffleConfig.width, height, waffleWrapper)
     const {waffle, legendData, firstInvalidGroupIndex, nonIncludedData} = getWaffles(data, waffleConfig)
-    console.log('WF: ',waffle)
     drawWaffle(waffle, svgWaffle, legendData, nonIncludedData, this.firstInvalidGroupIndex, waffleConfig, legendWrapper, sideWrapperWidth)
     drawTitle(sideWrapperWidth, titleWrapperHeight, titleWrapper)
 

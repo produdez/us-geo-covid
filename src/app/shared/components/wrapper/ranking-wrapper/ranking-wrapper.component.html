@@ -1,0 +1,15 @@
+<div *ngIf="show; then component else nothingBlock">
+
+</div>
+
+<ng-template #nothingBlock>
+    <app-loading></app-loading>
+</ng-template>
+
+<ng-template #component>
+    <app-ranking
+    [todayReports]="todayReports"
+    [todayDate]="todayDate"
+    [column]="column"
+    ></app-ranking>
+</ng-template>

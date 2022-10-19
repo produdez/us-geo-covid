@@ -1,0 +1,25 @@
+<ng-template #checkboxTpl let-ref>
+    <div class="text-center">
+        <form #userForm="ngForm" [formGroup]="checkboxForm" (ngSubmit)="onSubmitCheckbox(ref)">
+            <h5> {{dialogName}} </h5>
+
+            <div class="w-2/3 mx-auto my-5">
+                <div formArrayName="values" *ngFor="let _ of checkBoxFormArray.controls; let i = index">
+                    <div class="flex items-center mb-4">
+                        <input type="checkbox" id={{i}} value={{selectList[i]}}
+                        [formControlName]="i"
+                        class="w-4 h-4 text-blue-600 rounded focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
+                        >
+                    <label for={{selectList[i]}}
+                        class="block ml-2 subtitle text-gray-300"
+                    >{{formatString(selectList[i])}}</label><br>    
+                </div>
+            </div>
+        </div>
+        <button>Submit</button>
+    </form>
+</div>
+</ng-template>
+
+
+<button (click)="open(checkboxTpl)">{{buttonName}}</button>

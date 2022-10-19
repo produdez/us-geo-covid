@@ -5,9 +5,18 @@
 <ng-template #detailBlock>
     <div class="flex flex-col h-full w-full max-h-full flex-strink">
         <h2 class="text-center"> Details !! </h2>
-        <app-details [state]="state | cast" [reports]="this.reports"></app-details>
-        <div class="justify-center component-border-box w-full h-full">
-            <app-line-graphs [columns]="columns" [graphName]="graphName()" [data]="this.reports"></app-line-graphs>
+        <div class="flex justify-between">
+            <app-details [state]="state | cast" [reports]="this.reports"></app-details>
+            
+            <app-button-dialog-checkbox-select-form
+            [dialogName]="'Select stats to be drawn in line graph'"
+            [buttonName]="'Line graph settings'"
+            [selectList]="columns"
+            (selectedItemsEvent)="updateLineGraphColumns($event)"
+            ></app-button-dialog-checkbox-select-form>
+        </div>
+        <div class="justify-center w-full h-full">
+            <app-line-graphs [graphName]="graphName()" [data]="this.reports" [simplified]="false"></app-line-graphs>
         </div>
     </div>
 </ng-template>

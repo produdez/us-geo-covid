@@ -15,6 +15,7 @@ import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopp
 import { RankingComponent } from './graph-page/ranking/ranking.component';
 import { CurrentStatsComponent } from './graph-page/current-stats/current-stats.component';
 import { DialogModule } from '@ngneat/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -24,7 +25,6 @@ import { DialogModule } from '@ngneat/dialog';
     MapPageComponent,
     MainPageComponent,
     GraphPageComponent,
-    RankingComponent,
     CurrentStatsComponent,
   ],
   imports: [
@@ -33,6 +33,8 @@ import { DialogModule } from '@ngneat/dialog';
     LeafletModule,
     SharedModule,
     HttpClientModule, // NOTE: Global HttpClientModule for other modules to use!
+    ReactiveFormsModule,
+    FormsModule,
     TippyModule.forRoot({
       defaultVariation: 'tooltip',
       variations: {
@@ -43,7 +45,7 @@ import { DialogModule } from '@ngneat/dialog';
     DialogModule.forRoot({
       sizes: {
         sm: {
-          width: 300, // 300px
+          width: 500, // 300px
           minHeight: 250 // 250px
         },
         md: {

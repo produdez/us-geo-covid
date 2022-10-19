@@ -12,14 +12,18 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet'
 import { SharedDataService } from './services/shared-data.service'
 import { UsStatesGeometryService } from './services/us-states-geometry.service';
 import { DateSliderComponent } from './components/date-slider/date-slider.component'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopper';
 import { WaffleChartComponent } from './components/waffle-chart/waffle-chart.component';
 import { DetailPageDialogComponent } from './components/dialogs/detail-page-dialog/detail-page-dialog.component';
 import { DetailedPageComponent } from './components/wrappable/detailed-page/detailed-page.component'
 import { GraphIdService } from './services/graph-id.service';
 import { WaffleChartDialogComponent } from './components/dialogs/waffle-chart-dialog/waffle-chart-dialog.component';
-import { LineGraphDialogComponent } from './components/dialogs/line-graph-dialog/line-graph-dialog.component'
+import { LineGraphDialogComponent } from './components/dialogs/line-graph-dialog/line-graph-dialog.component';
+import { ButtonDialogRadioSelectFormComponent } from './components/dialogs/button-dialog-radio-select-form/button-dialog-radio-select-form.component';
+import { RankingWrapperComponent } from './components/wrapper/ranking-wrapper/ranking-wrapper.component'
+import { RankingComponent } from '../graph-page/ranking/ranking.component';
+import { ButtonDialogCheckboxSelectFormComponent } from './components/dialogs/button-dialog-checkbox-select-form/button-dialog-checkbox-select-form.component'
 
 
 @NgModule({
@@ -35,7 +39,11 @@ import { LineGraphDialogComponent } from './components/dialogs/line-graph-dialog
     DetailPageDialogComponent,
     DetailedPageComponent,
     WaffleChartDialogComponent,
-    LineGraphDialogComponent
+    LineGraphDialogComponent,
+    ButtonDialogRadioSelectFormComponent,
+    RankingWrapperComponent,
+    RankingComponent,
+    ButtonDialogCheckboxSelectFormComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +56,7 @@ import { LineGraphDialogComponent } from './components/dialogs/line-graph-dialog
         popper: popperVariation,
       }
     }),
+    ReactiveFormsModule,
   ],
   exports: [
     LoadingComponent,
@@ -59,7 +68,11 @@ import { LineGraphDialogComponent } from './components/dialogs/line-graph-dialog
     DateSliderComponent,
     WaffleChartComponent,
     DetailPageDialogComponent,
-    DetailedPageComponent
+    DetailedPageComponent,
+    ButtonDialogRadioSelectFormComponent,
+    RankingWrapperComponent,
+    RankingComponent,
+    ButtonDialogCheckboxSelectFormComponent,
   ],
   providers: [
     CovidApiService,

@@ -1,7 +1,10 @@
 <div>
     <div>
         <div class="flex justify-center">
-            <h3 class="text-green-300"> Top Covid-ed States</h3>
+            <div>
+                <h3 class="text-green-300"> Top States</h3>
+                <p class="description text-orange-400"> {{textFormat(column)}} cases info </p>
+            </div>
             <div class="justify-self-start ml-1">
                 <img
                 [tippy]="rankingTooltip" [maxWidth]="'none'"
@@ -14,7 +17,10 @@
         <div class="w-full h-full">
             <ul *ngFor="let report of top10; index as i">
                 <li class="flex justify-start h-1/5">
-                    <div class="flex justify-between w-full h-full px-5">
+                    <div class="flex justify-between w-full h-full px-5 hover:bg-slate-400 hover:text-black hover:text-lg hover:font-semibold" 
+                        [tippy]="(top10[i].json[column]).toString() + ' cases'"
+
+                    >
                         <p class="subtitle">{{i + 1}}</p>
 
                         <div class="text-ellipsis">

@@ -12,9 +12,16 @@ export class SharedDataService {
 
   private _allStates = new BehaviorSubject<State[]>([]);
   public allStates = this._allStates.asObservable();
-  constructor(
-    private covidApiService: CovidApiService
-  ) {}
+
+  private _waffleColumn = new BehaviorSubject<string>('positive');
+  public waffleColumn = this._waffleColumn.asObservable()
+
+  private _lineGraphColumns = new BehaviorSubject<string[]>(['positive', 'negative'])
+  public lineGraphColumns = this._lineGraphColumns.asObservable()
+
+  public allColumns = ['positive', 'negative', 'death', 'recovered', 'in_icu_cumulative', 'on_ventilation_cumulative', 'hospitalized_cumulative']
+
+  constructor() {}
 
   updateState(state: string) {
     if(!state || state =='') {
@@ -30,5 +37,16 @@ export class SharedDataService {
       return
     }
     this._allStates.next(states);
+  }
+
+  updateWaffleColumn(column: string) {
+    this._waffleColumn.next(column)
+    console.log('Updateing shared column: ',this._waffleColumn.getValue());
+  }
+
+  updateLineGraphColumns(columns: string[]) {
+    if(columns.length == 0) return
+
+    this._lineGraphColumns.next(columns);
   }
 }

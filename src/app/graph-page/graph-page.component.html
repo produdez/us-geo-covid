@@ -12,10 +12,10 @@
         <div class="text-center flex flex-col justify-center bg-gray-800 rounded-lg">
             <div *ngIf="loadedTodayReports; then rankings else loadingBlock"></div>
             <ng-template #rankings>
-                <app-ranking
+                <app-ranking-wrapper
                     [todayReports]="todayReports"
                     [todayDate]="currentDate | cast"
-                ></app-ranking>
+                ></app-ranking-wrapper>
             </ng-template>
         </div>
         <div class="text-center flex flex-col justify-center bg-gray-800 rounded-lg">
@@ -28,13 +28,23 @@
             </ng-template>
         </div>
         <div class="text-center flex flex-col bg-gray-800 rounded-lg">
-            <div class="justify-self-start mt-3 ml-3 h-[10%]">
-                <img
-                [tippy]="lineGraphTooltip"  
-                src="assets/info.png" 
-                alt="info" 
-                class="ml-2 avatar rounded-full aspect-square h-6 shadow-sm shadow-white flex-grow-0"
-                >
+            <div class="flex justify-between justify-self-start h-[10%] mt-3">
+                <div class=" ml-3 ">
+                    <img
+                    [tippy]="lineGraphTooltip"  
+                    src="assets/info.png" 
+                    alt="info" 
+                    class="ml-2 avatar rounded-full aspect-square h-6 shadow-sm shadow-white flex-grow-0"
+                    >
+                </div>
+                <div class="mr-3">
+                    <app-button-dialog-checkbox-select-form
+                        [dialogName]="'Select stats to be drawn in line graph'"
+                        [buttonName]="'Line graph settings'"
+                        [selectList]="columns"
+                        (selectedItemsEvent)="updateLineGraphColumns($event)"
+                    ></app-button-dialog-checkbox-select-form>
+                </div>
             </div>
             <div *ngIf="loadedGlobalReports && loadedDate(); then lineGraphWrapper else loadingBlock"></div>
 
@@ -47,7 +57,6 @@
                     <div class="h-full w-full flex flex-col justify-center">
                         <app-line-graphs
                             [data]="globalReports"
-                            [columns]="['positive', 'negative']"
                             [graphName]="'Summary US Situation'"
                         ></app-line-graphs>
                     </div>
@@ -55,6 +64,18 @@
             </ng-template>
         </div>
         <div class="text-center flex flex-col justify-center bg-gray-800 rounded-lg">
+            <div class="flex justify-center">
+                <app-button-dialog-radio-select-form
+                    [selectList]="columns"
+                    [dialogName]="'Change Shown Attribute For Today\'s data'"
+                    [buttonName]="'Change attribute'"
+                    (selectedItemEvent)="setWaffleColumn($event)"
+                >
+                </app-button-dialog-radio-select-form>
+                <div class="ml-5">
+                    <p>Selected: {{column}}</p>
+                </div>
+            </div>
             <div *ngIf="loadedTodayReports; then waffleChartWrapper else loadingBlock"></div>
             <ng-template #waffleChartWrapper>
                 <ng-container #dialogVCR></ng-container>

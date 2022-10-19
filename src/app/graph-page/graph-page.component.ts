@@ -6,6 +6,7 @@ import { WaffleChartDialogComponent } from '../shared/components/dialogs/waffle-
 import { RequiredProperty } from '../shared/decorators/requiredProperty';
 import { GlobalReport, Report } from '../shared/models/report';
 import { CovidApiService } from '../shared/services/covid-api.service';
+import { SharedDataService } from '../shared/services/shared-data.service';
 
 @Component({
   selector: 'app-graph-page',
@@ -25,6 +26,8 @@ export class GraphPageComponent implements OnInit {
   @Input() loadedTodayReports: boolean = false
   @Input() loadedGlobalReports: boolean = false
   loadedDate = () => this.currentDate != undefined
+  columns = this.sharedDataService.allColumns
+  column!: string
 
   waffleChartDialog = WaffleChartDialogComponent
   lineGraphDialog = LineGraphDialogComponent
@@ -33,6 +36,7 @@ export class GraphPageComponent implements OnInit {
   constructor(
     private covidApiService: CovidApiService,
     private dialog: DialogService,
+    private sharedDataService: SharedDataService,
   ) { }
   
   openDialog(compOrTemplate: Type<any> | TemplateRef<any>, config: DialogConfig<any>) {
@@ -48,6 +52,14 @@ export class GraphPageComponent implements OnInit {
     return this.dialog.open(compOrTemplate, config)
   }
   ngOnInit(): void {
+    this.sharedDataService.waffleColumn.subscribe(column => this.column = column)
   }
 
+  setWaffleColumn(column: string) {
+    this.sharedDataService.updateWaffleColumn(column)
+  }
+
+  updateLineGraphColumns(columns: string[]) {
+    this.sharedDataService.updateLineGraphColumns(columns)
+  }
 }

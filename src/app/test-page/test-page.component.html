@@ -1,2 +1,7 @@
-<h1>hello</h1>
-<button (click)="open()">Open</button>
+<app-button-dialog-checkbox-select-form
+    [dialogName]="'Test checkbox select'"
+    [buttonName]="'Checkbox hello'"
+    [selectList]="['bla', 'cla', 'dla']"
+    (selectedItemsEvent)="printTest($event)"
+
+></app-button-dialog-checkbox-select-form>

@@ -1,4 +1,4 @@
-import { Component, Input, NgZone, OnInit } from '@angular/core'
+import { Component, Input, NgZone, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import * as L from 'leaflet'
 import { UsStatesGeometryService } from '../../services/us-states-geometry.service'
 import {CustomLeafletControl} from './custom-leaflet-control'
@@ -8,6 +8,7 @@ import { RequiredProperty } from '../../decorators/requiredProperty'
 import { SharedDataService } from '../../services/shared-data.service'
 import { DialogService } from '@ngneat/dialog'
 import { DetailPageDialogComponent } from '../dialogs/detail-page-dialog/detail-page-dialog.component'
+import { Subject } from 'rxjs'
 
 @Component({
   selector: 'app-choropleth-map',
@@ -123,7 +124,7 @@ export class ChoroplethMapComponent implements OnInit {
     )
     geojsonLayer.addTo(map)
     // add info prompt
-    var info = new CustomLeafletControl()
+    var info = new CustomLeafletControl(this.sharedDataService)
     info.addTo(map)
     // add legend
     var legend = new L.Control({position: 'bottomright'})

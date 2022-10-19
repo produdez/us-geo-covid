@@ -5,6 +5,8 @@ import * as d3 from "d3"
 import { RequiredProperty } from 'src/app/shared/decorators/requiredProperty'
 import { CustomDate } from '../../models/customDate'
 import { GraphIdService } from '../../services/graph-id.service'
+import { FormControl, FormGroup } from '@angular/forms'
+import { SharedDataService } from '../../services/shared-data.service'
 
 interface DataPoint {
   date: CustomDate,
@@ -19,8 +21,8 @@ interface SubData {
   templateUrl: './line-graphs.component.html',
   styleUrls: ['./line-graphs.component.sass']
 })
-// TODO: add dialog to select columns
-export class LineGraphComponent implements AfterViewInit {
+// TODO: Fix 
+export class LineGraphComponent implements AfterViewInit, OnInit {
   @HostBinding('class.fit-height')
   @ViewChild('chart')
   private chartContainerRef!: ElementRef
@@ -30,7 +32,9 @@ export class LineGraphComponent implements AfterViewInit {
   graphId!: string 
   @Input() @RequiredProperty data!: (Report | GlobalReport)[]
   @Input() @RequiredProperty graphName!: string
-  @Input() @RequiredProperty columns!: string[]
+  // @Input() @RequiredProperty columns!: string[]
+
+  columns!: string[]
   clickedForMoreInfo = false
 
   graphWrapperClass!: string
@@ -39,7 +43,7 @@ export class LineGraphComponent implements AfterViewInit {
   height!: number
   @Input() simplified = true
 
-  constructor(elementRef: ElementRef, graphIdService: GraphIdService) {
+  constructor(elementRef: ElementRef, graphIdService: GraphIdService, private sharedDataService: SharedDataService) {
     console.log('linegraph cons activated')
     this.chartContainerRef = elementRef
     this.graphId = graphIdService.getId()
@@ -47,13 +51,23 @@ export class LineGraphComponent implements AfterViewInit {
     this.graphWrapperClass = this.appendId('line-graph-wrapper')+'h-full w-full px-5 flex-grow my-auto flex justify-center'
   }
 
-
+  valid() {
+    if(!this.data) return false
+    return this.data.length > 0 && this.columns != undefined
+  }
+  ngOnInit() {
+    this.sharedDataService.lineGraphColumns.subscribe((columns: string[]) => {
+      this.columns = columns
+      console.log('columns: ', this.columns)
+      if(this.valid()) this.drawGraph()
+    })
+  }
   setup() {
     // Colors
     const colors =  ['#00876c', '#81b788', '#d7e6b4', '#f5dea4', '#eebb7d', '#e99562', '#e16c53', '#d43d51',]
     var colorsDict = {} as {[key: string]: any}
     this.columns.forEach((column, index) => {
-        colorsDict[column] = colors[index*2] // todo: sync color with summary cell's color 
+        colorsDict[column] = colors[index] // todo: sync color with summary cell's color 
     })
     const color = (column: string) => colorsDict[column]
     return {
