@@ -36,9 +36,6 @@ export class RankingComponent implements OnInit, OnChanges{
     }
     return false
   }
-  ngONChanges(changes: SimpleChanges) {
-    console.log('ConChanges', changes)
-  }
   ngOnInit() {
     this.todayReports = this.filterAndSortByPositive(this.todayReports.filter((report) => report.json[this.column] != 0))
     this.top10 = this.todayReports.slice(0, 10)

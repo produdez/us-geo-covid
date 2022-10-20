@@ -41,7 +41,6 @@ updateState(state: string) {
 
   updateWaffleColumn(column: string) {
     this._waffleColumn.next(column)
-    console.log('Updateing shared column: ',this._waffleColumn.getValue());
   }
 
   updateLineGraphColumns(columns: string[]) {

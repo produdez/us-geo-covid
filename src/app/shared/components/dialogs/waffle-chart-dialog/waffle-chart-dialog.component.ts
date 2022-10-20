@@ -27,7 +27,6 @@ export class WaffleChartDialogComponent implements OnInit {
     private sharedDataService: SharedDataService
     ) {
     const className = WaffleChartDialogComponent.name
-    console.log('data: ', dialogRef.data)
     if(!this.dialogRef.data) throw new DialogEmptyDataError(className)
     const data = this.dialogRef.data
     if(!data.todayData || data.todayData.length === 0) throw new DialogDataMissingKeyError('todayData', className)

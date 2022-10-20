@@ -17,7 +17,6 @@ export class MapStylingService {
   public gradient = this._gradient.rgb(this.maxPropertyValue)
   constructor(private sharedDataService: SharedDataService) {
     this.sharedDataService.waffleColumn.subscribe((column) => {
-      console.log('in shared: ', column)
       if(this.column === column) return
       this.column = column
     })

@@ -117,7 +117,6 @@ export class LineGraphComponent implements AfterViewInit, OnInit {
     this.updateWidthHeight()
     this.sharedDataService.lineGraphColumns.subscribe((columns: string[]) => {
       this.columns = columns
-      console.log('columns: ', this.columns)
       if(this.valid()) this.drawGraph()
     })
     this.drawGraph()
@@ -129,9 +128,7 @@ export class LineGraphComponent implements AfterViewInit, OnInit {
     if(svg) svg.selectAll("*").remove()
     
     const {color, width, height, margin, yAxisPadding} = this.setup()
-    console.log('before data:' , this.data)
     const data = this.parseData(this.data)
-    console.log('data: ', data)
   
     console.time("DrawGraph");
   

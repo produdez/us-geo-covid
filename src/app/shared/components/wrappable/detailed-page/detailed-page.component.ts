@@ -35,10 +35,8 @@ export class DetailedPageComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
-    console.log('ngOnChanges detailed-page')
   }
   ngOnInit() {
-    console.log('Initialized detailed-page')
     // console.log('Inits: ', this.stateIdentifier)
     this.getState(this.stateIdentifier)
   }
