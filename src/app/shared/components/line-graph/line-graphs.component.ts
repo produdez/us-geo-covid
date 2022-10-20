@@ -32,7 +32,6 @@ export class LineGraphComponent implements AfterViewInit, OnInit {
   graphId!: string 
   @Input() @RequiredProperty data!: (Report | GlobalReport)[]
   @Input() @RequiredProperty graphName!: string
-  // @Input() @RequiredProperty columns!: string[]
 
   columns!: string[]
   clickedForMoreInfo = false
@@ -56,18 +55,14 @@ export class LineGraphComponent implements AfterViewInit, OnInit {
     return this.data.length > 0 && this.columns != undefined
   }
   ngOnInit() {
-    this.sharedDataService.lineGraphColumns.subscribe((columns: string[]) => {
-      this.columns = columns
-      console.log('columns: ', this.columns)
-      if(this.valid()) this.drawGraph()
-    })
+    return
   }
   setup() {
     // Colors
     const colors =  ['#00876c', '#81b788', '#d7e6b4', '#f5dea4', '#eebb7d', '#e99562', '#e16c53', '#d43d51',]
     var colorsDict = {} as {[key: string]: any}
     this.columns.forEach((column, index) => {
-        colorsDict[column] = colors[index] // todo: sync color with summary cell's color 
+        colorsDict[column] = colors[index* 2 % colors.length] // todo: sync color with summary cell's color 
     })
     const color = (column: string) => colorsDict[column]
     return {
@@ -90,7 +85,7 @@ export class LineGraphComponent implements AfterViewInit, OnInit {
           data: data.map((row) => {
               return {
                   date: row.date,
-                  value: row.json[column]
+                  value: row.json[column] ? row.json[column] : 0
               }
           })
       }
@@ -120,6 +115,11 @@ export class LineGraphComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
     this.updateWidthHeight()
+    this.sharedDataService.lineGraphColumns.subscribe((columns: string[]) => {
+      this.columns = columns
+      console.log('columns: ', this.columns)
+      if(this.valid()) this.drawGraph()
+    })
     this.drawGraph()
   }
 
@@ -129,8 +129,9 @@ export class LineGraphComponent implements AfterViewInit, OnInit {
     if(svg) svg.selectAll("*").remove()
     
     const {color, width, height, margin, yAxisPadding} = this.setup()
-  
+    console.log('before data:' , this.data)
     const data = this.parseData(this.data)
+    console.log('data: ', data)
   
     console.time("DrawGraph");
   
@@ -245,6 +246,7 @@ export class LineGraphComponent implements AfterViewInit, OnInit {
         .catch(err => console.log('parsing info.svg error: ', err))
         .then((data) => {
           if(!data) return
+          console.log('ttnode: ', title.node())
           const titleBBox = title.node().getBBox()
   
           const [iconX, iconY] = [width/2 + titleBBox.width/2 + 10, 30/2 - 10]

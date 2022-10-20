@@ -31,7 +31,6 @@ export class MapStylingService {
   }
 
   choroplethDefaultStyle(feature: any) {
-    console.log("FUCK YOU", this.column)
     if (feature === undefined) return {}
     let value = feature['properties']['report'] === undefined ? -1 : feature.properties['report'][this.column]
     return {

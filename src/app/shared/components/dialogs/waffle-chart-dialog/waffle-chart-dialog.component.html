@@ -1,8 +1,17 @@
-<div class="h-full w-full flex flex-col justify-center">
-    <app-waffle-chart
-        [todayData]="todayData"
-        [graphName]="'Covid distribution between States'"
-        [simplified]="false"
-        [date]="date"
-    ></app-waffle-chart>
+<div class="h-full w-full flex flex-col justify-between">
+    <app-button-dialog-radio-select-form
+        [selectList]="columns"
+        [dialogName]="'Change Shown Attribute For Today\'s data'"
+        [buttonName]="'Change attribute'"
+        (selectedItemEvent)="setWaffleColumn($event)"
+    >
+    </app-button-dialog-radio-select-form>
+    <div class="pb-[50%]">
+        <app-waffle-chart
+            [todayData]="todayData"
+            [graphName]="'Covid distribution between States'"
+            [simplified]="false"
+            [date]="date"
+        ></app-waffle-chart>
+    </div>
 </div>

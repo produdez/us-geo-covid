@@ -1,6 +1,6 @@
 <ng-template #radialTpl let-ref>
     <div class="text-center">
-        <form #userForm="ngForm" [formGroup]="radioForm" (ngSubmit)="onSubmitRadio()">
+        <form #userForm="ngForm" [formGroup]="radioForm" (ngSubmit)="onSubmitRadio(ref)">
             <h5> {{dialogName}}</h5>
 
             <div class="w-2/3 mx-auto my-5">

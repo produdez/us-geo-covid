@@ -15,7 +15,8 @@ import { TippyModule, tooltipVariation, popperVariation } from '@ngneat/helipopp
 import { RankingComponent } from './graph-page/ranking/ranking.component';
 import { CurrentStatsComponent } from './graph-page/current-stats/current-stats.component';
 import { DialogModule } from '@ngneat/dialog';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AboutPageComponent } from './about-page/about-page.component'
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     MainPageComponent,
     GraphPageComponent,
     CurrentStatsComponent,
+    AboutPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DialogConfig, DialogService } from '@ngneat/dialog';
+import { DialogConfig, DialogRef, DialogService } from '@ngneat/dialog';
 import { RequiredProperty } from 'src/app/shared/decorators/requiredProperty';
 import { uppercaseFirstLetter } from 'src/app/shared/helpers/common';
 
@@ -32,10 +32,10 @@ export class ButtonDialogRadioSelectFormComponent implements OnInit {
     });
   }
 
-  onSubmitRadio() {
+  onSubmitRadio(ref: DialogRef) {
     const f = this.radioForm
     const result = f.value['value']
-    this.dialog.closeAll()
+    ref.close()
     this.selectedItemEvent.emit(result);
   }
 }

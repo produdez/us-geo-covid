@@ -3,6 +3,7 @@ import { DialogRef, DialogService } from '@ngneat/dialog';
 import { DialogDataMissingKeyError, DialogEmptyDataError } from 'src/app/shared/errors/dialog-data.error';
 import { CustomDate } from 'src/app/shared/models/customDate';
 import { Report } from 'src/app/shared/models/report';
+import { SharedDataService } from 'src/app/shared/services/shared-data.service';
 
 interface Data {
   todayData: Report[]
@@ -18,10 +19,13 @@ interface Data {
 export class WaffleChartDialogComponent implements OnInit {
   @HostBinding('class.fit-height')
   todayData: Report[]
-  columns: string[]
+  column!: string
+  columns = this.sharedDataService.allColumns
   date: CustomDate
 
-  constructor(public dialogRef: DialogRef<Data, boolean>) {
+  constructor(public dialogRef: DialogRef<Data, boolean>,
+    private sharedDataService: SharedDataService
+    ) {
     const className = WaffleChartDialogComponent.name
     console.log('data: ', dialogRef.data)
     if(!this.dialogRef.data) throw new DialogEmptyDataError(className)
@@ -29,10 +33,14 @@ export class WaffleChartDialogComponent implements OnInit {
     if(!data.todayData || data.todayData.length === 0) throw new DialogDataMissingKeyError('todayData', className)
     this.todayData = dialogRef.data.todayData
     this.date = dialogRef.data.date
-    this.columns = ['positive']
+  }
+
+  setWaffleColumn(column: string) {
+    this.sharedDataService.updateWaffleColumn(column)
   }
 
   ngOnInit(): void {
+    this.sharedDataService.waffleColumn.subscribe(column => this.column = column)
   }
 
 }

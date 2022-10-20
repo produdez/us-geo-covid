@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angula
 import { DialogRef } from '@ngneat/dialog';
 import { DialogDataMissingKeyError, DialogEmptyDataError } from 'src/app/shared/errors/dialog-data.error';
 import { GlobalReport, Report } from 'src/app/shared/models/report';
+import { SharedDataService } from 'src/app/shared/services/shared-data.service';
 
 interface Data {
   data: (Report | GlobalReport)[]
@@ -19,7 +20,9 @@ export class LineGraphDialogComponent implements OnInit {
   data: (Report | GlobalReport)[]
   columns: string[]
 
-  constructor(public dialogRef: DialogRef<Data, boolean>) {
+  constructor(public dialogRef: DialogRef<Data, boolean>,
+    private sharedDataService: SharedDataService,
+    ) {
     const className = LineGraphDialogComponent.name
     console.log('data: ', dialogRef.data)
     if(!this.dialogRef.data) throw new DialogEmptyDataError(className)
@@ -27,7 +30,11 @@ export class LineGraphDialogComponent implements OnInit {
     if(!data.data || data.data.length === 0) throw new DialogDataMissingKeyError('data', className)
     this.data = dialogRef.data.data
     
-    this.columns = ['positive', 'negative']
+    this.columns = this.sharedDataService.allColumns
+  }
+
+  updateLineGraphColumns(columns: string[]) {
+    this.sharedDataService.updateLineGraphColumns(columns)
   }
 
   ngOnInit(): void {

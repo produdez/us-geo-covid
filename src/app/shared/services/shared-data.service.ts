@@ -19,11 +19,11 @@ export class SharedDataService {
   private _lineGraphColumns = new BehaviorSubject<string[]>(['positive', 'negative'])
   public lineGraphColumns = this._lineGraphColumns.asObservable()
 
-  public allColumns = ['positive', 'negative', 'death', 'recovered', 'in_icu_cumulative', 'on_ventilation_cumulative', 'hospitalized_cumulative']
+  public allColumns = ['positive', 'negative', 'death', 'recovered', 'inIcuCumulative', 'onVentilationCumulative', 'hospitalizedCumulative']
 
   constructor() {}
 
-  updateState(state: string) {
+updateState(state: string) {
     if(!state || state =='') {
       console.log('Update state failed!')
       return

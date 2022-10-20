@@ -25,3 +25,13 @@ export function uppercaseFirstLetter(value: any) {
     var temp: string = typeof value === 'string' ? value : value.toString()
     return (temp[0].toUpperCase()).concat(temp.slice(1)).replaceAll('_', ' ')
 }
+
+export function camelCaseToNormal(value: string) {
+    var temp: string = value.split('').reduce(
+        (prev, curr) => {
+            return prev + curr.toUpperCase() == curr ? 
+                ' ' + curr : curr
+        }
+    )
+    return temp[0].toUpperCase().concat(temp.slice(1))
+}

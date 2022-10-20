@@ -1,5 +1,15 @@
-<app-line-graphs
-[data]="data"
-[graphName]="'Covid Summary Status in US'"
-[simplified]="false"
-></app-line-graphs>
+<div class="w-full h-full">
+    <div class="flex my-3 mx-5">
+        <app-button-dialog-checkbox-select-form
+            [dialogName]="'Select stats to be drawn in line graph'"
+            [buttonName]="'Line graph settings'"
+            [selectList]="columns"
+            (selectedItemsEvent)="updateLineGraphColumns($event)"
+        ></app-button-dialog-checkbox-select-form>
+    </div>
+    <app-line-graphs
+        [data]="data"
+        [graphName]="'Covid Summary Status in US'"
+        [simplified]="false"
+    ></app-line-graphs>
+</div>

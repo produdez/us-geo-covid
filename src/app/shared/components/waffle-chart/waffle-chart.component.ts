@@ -95,7 +95,6 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
     this.sharedDataService.waffleColumn.subscribe((column: string) => {
         if(this.column == column) return
         this.column = column
-        console.log('Column: ', this.column)
         if(this.valid()) this.drawGraph()
     })
     this.sharedDataService.allStates.subscribe((states: State[]) => {
@@ -104,9 +103,7 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('Changes', changes)
     if('todayData' in changes) {
-        console.log('in keys')
         this.noGraph = false
     }
   }
@@ -119,7 +116,6 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
     if(heightDiff > (0.3 * this.height) || widthDiff > (0.3 * this.width)) {
       this.width = newWidth
       this.height = newHeight
-      console.log('Drawing from ngAfterViewChecked')
 
       this.drawGraph()
     }
@@ -127,7 +123,6 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
 
   ngAfterViewInit() {
     this.updateWidthHeight()
-    console.log('Draw from ngAfterViewInit')
     this.drawGraph()
   }
 
@@ -215,7 +210,6 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
 
     this.todayData = filter(this.todayData, (r: Report) => accessor(r) != null && accessor(r) > 0)
     this.todayData = sort(this.todayData, (r: Report) => r.stateId)
-    console.log('Today data after sort: ', this.todayData)
     var zippedData
     if(this.todayData.length < this.states.length) {
         var searchIndex = 0
@@ -253,7 +247,6 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
         data[data.length - 1].percentage += missing
         data[data.length - 1].accumulated += missing
     }
-    console.log('data: ', data)
     return data
   }
   private drawGraph() {
@@ -364,14 +357,14 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
             }
         
         // ! The others will just get what ever cells are left over!!
-        console.log('firstInvalid: ', this.firstInvalidGroupIndex)
+        // console.log('firstInvalid: ', this.firstInvalidGroupIndex)
         const othersCellCount = groupData.length > 1 ?
             cellCount - groupData[this.firstInvalidGroupIndex-1].accumulated :
             0 
-        console.log('Others: ',othersCellCount)
+        // console.log('Others: ',othersCellCount)
 
         if (othersCellCount == 0) { // other's data does not worth one cell
-            console.log('NO OTHERS cell@!@@')
+            // console.log('NO OTHERS cell@!@@')
             return {
                 waffle: cellArray,
                 legendData: initGroupData.slice(0, this.firstInvalidGroupIndex),
@@ -721,14 +714,12 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
         
     }
 
-    console.log('Today: ', this.todayData)
     if(this.noGraph) return
     
     const data: GroupInfo[] = this.parseData()
-    console.log('Data: ', data)
+    // console.log('Data: ', data)
     if(data.length === 0 ) {
         this.noGraph = true
-        console.log('Reparsed and check: ', !this.noGraph)
         this.ref.detectChanges()
         return
     }

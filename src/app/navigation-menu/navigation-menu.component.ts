@@ -6,7 +6,7 @@ import {routes as navigationRoutes} from '../app-routing.module'
   styleUrls: ['./navigation-menu.component.sass']
 })
 export class NavigationMenuComponent {
-  routes = navigationRoutes.map((route) => "/" + route.path)
+  routes = navigationRoutes.filter(x => x.path != '').map((route) => "/" + route.path)
   constructor() { }
 
   openGithub(){

@@ -10,7 +10,7 @@ export class CovidApiService {
   apiURL = environment.BACKEND_URL
 
   constructor(@Inject(HttpService) private http: HttpService) { 
-    console.log('Backend URL: ', this.apiURL)
+    // console.log('Backend URL: ', this.apiURL)
   }
 
 

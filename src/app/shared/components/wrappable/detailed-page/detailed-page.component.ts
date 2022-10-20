@@ -17,7 +17,7 @@ export class DetailedPageComponent implements OnChanges, OnInit {
   state: State | undefined = undefined
   reports : Report[] = []
   loading = false
-  columns: string[] =['positive', 'negative', 'death', 'recovered']
+  columns = this.sharedDataService.allColumns
   graphName = () => 'Covid Situation In ' + this.state?.name
 
   constructor(
