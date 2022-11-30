@@ -6,10 +6,10 @@
         (selectedItemEvent)="setWaffleColumn($event)"
     >
     </app-button-dialog-radio-select-form>
-    <div class="pb-[50%]">
+    <div class="h-full w-full py-5">
         <app-waffle-chart
             [todayData]="todayData"
-            [graphName]="'Covid distribution between States'"
+            [graphName]="'Covid between States'"
             [simplified]="false"
             [date]="date"
         ></app-waffle-chart>

@@ -602,7 +602,7 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
                 }
             }
 
-            const [disableX, disableY] = [35, 10]
+            const [disableX, disableY] = [10, 5]
             const disableIconWrapper = titleWrapper.append('svg')
                 .attr('x', disableX)
                 .attr('y', disableY)
@@ -650,15 +650,16 @@ export class WaffleChartComponent implements AfterViewChecked, OnInit, OnChanges
                 .on("mouseout",  () => tooltipDisableBorder.style("visibility", "hidden"));
         }
         const addTitle = () => {
+            const yAnchor = 20
             const title = titleWrapper.append("text")
                 .attr("x", width/2)
-                .attr("y", 30)
+                .attr("y", yAnchor)
                 .attr("text-anchor", "middle")
                 .attr('class', 'graph-title fill-white bold text-md')
                 .text(this.graphName)
             titleWrapper.append("text")
                 .attr("x", width/2)
-                .attr("y", 30 + 15)
+                .attr("y", yAnchor + 15)
                 .attr("text-anchor", "middle")
                 .attr('class', 'description-mini fill-gray-200')
                 .text(formatDate(this.date))
